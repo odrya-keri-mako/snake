@@ -1,0 +1,115 @@
+*:not(input):not(textarea) {
+  -webkit-touch-callout:none !important;
+	  -webkit-user-select:none !important;
+						user-select:none !important;
+					outline-style:none !important;
+}
+.logo {
+	width: 46px;
+	height: 50px;
+	background-image:url(../img/keri.webp);
+}
+.bg-img {
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+}
+.bg-img-contain {
+  -webkit-background-size: contain !important;
+          background-size: contain !important;
+}
+.bg-img-cover {
+  -webkit-background-size: cover !important;
+          background-size: cover !important;
+}
+form[name="optionsForm"] {
+	max-width:340px;
+}
+table.game-panel {
+	table-layout: fixed;
+}
+table.game-panel td {
+	width: 30px !important;
+	height: 30px !important;
+	min-width: 30px !important;
+	min-height: 30px !important;
+	max-width: 30px !important;
+	max-height: 30px !important;
+	position: relative;
+  overflow: hidden;
+}
+table.game-panel td.food {
+	background-image: url(../img/apple.png);
+	background-repeat: no-repeat !important;
+  background-position: center center !important;
+	-webkit-background-size: contain !important;
+          background-size: contain !important;
+}
+table.game-panel td.stone {
+	background-color: gray;
+}
+table.game-panel td.snake {
+	background-color: rgb(60, 179, 60);
+	box-shadow:0px 0px 0px 1px #212529 inset;
+}
+table.game-panel td.snake.head {
+	background-color: green;
+}
+table.game-panel td.snake.head.start::after,
+table.game-panel td.snake.head.end::after,
+table.game-panel td.snake.head.top::after,
+table.game-panel td.snake.head.bottom::after {
+	content: ":";
+  white-space: pre;
+	font-size: 18px;
+	font-weight: bold;
+	position: absolute;
+}
+table.game-panel td.snake.head.top::after,
+table.game-panel td.snake.head.bottom::after {
+	transform: rotate(90deg);
+}
+table.game-panel td.snake.head.start::after {
+	left:5px;
+}
+table.game-panel td.snake.head.end::after {
+	right:5px;
+}
+table.game-panel td.snake.head.top::after {
+	top:-6px;
+}
+table.game-panel td.snake.head.bottom::after {
+	bottom:-6px;
+}
+.game-container {
+	border: 5px solid rgb(73, 80, 87);
+}
+.game-container.border-blink {
+	border-color: transparent;
+  -webkit-animation: blink .5s step-end infinite alternate;
+					animation: blink .5s step-end infinite alternate;
+}
+@-webkit-keyframes blink { 
+	50% { border-color: red; } 
+}
+@keyframes blink { 
+	50% { border-color: red; } 
+}
+table.game-panel td.snake.shine::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 200%;
+	height: 100%;
+	background: linear-gradient(
+		to right,
+		rgba(255, 255, 255, 0) 		0%,
+		rgba(232, 245, 44,  0.8)  50%,
+		rgba(255, 255, 255, 0) 	100%
+	);
+	animation: shine-effect 0.2s linear;
+}
+@keyframes shine-effect {
+	from {left: -100%;}
+	to {left: 100%;}
+}
