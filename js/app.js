@@ -29,15 +29,10 @@
 				stones 		: 0,
 				delay			: 100,
 				autoPlay	: false,
-				players 	: [{id:'greedy',		valid:true, 	name:'Greedy'},
-									 	 {id:'astar_e',		valid:true,		name:'A* Euklidesz'},
-									 	 {id:'astar_m',		valid:false,	name:'A* Manhattan'},
-									 	 {id:'random',		valid:false,	name:'Random'},
-									 	 {id:'breadth',		valid:false,	name:'Breadth-First'},
-									 	 {id:'depth',			valid:false,	name:'Depth-First'},
-									 	 {id:'uniformed',	valid:false,	name:'Uniformed'},
-									 	 {id:'alpha_beta',valid:false,	name:'Alpha-Beta'},
-									 	 {id:'human',			valid:false,	name:'Human'}],
+				players 	: [
+					{id:'astar_e',		valid:true,		name:'A* Euklidesz'},
+					{id:'human',			valid:true,	  name:'Human'}
+				],
 				playerID: null
 			}
 
