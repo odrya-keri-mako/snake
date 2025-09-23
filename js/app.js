@@ -32,8 +32,8 @@
 				delay			: 100,
 				autoPlay	: false,
 				players 	: [
-					{id:'astar_e',		valid:true,		name:'A* Euklidesz'},
-					{id:'human',			valid:true,	  name:'Human'}
+					{id:'human',			valid:true,	  name:'Human'},
+					{id:'astar_e',		valid:true,		name:'A* Euklidesz'}
 				],
 				playerID: null
 			}
@@ -42,7 +42,7 @@
 			// let index = $scope.options.players.findIndex(item => item.valid);
 			// if (index !== -1) 
 			// 	$scope.options.playerID = $scope.options.players[index].id;
-			$scope.options.playerID = "astar_e";
+			$scope.options.playerID = "human";
 
 			// Game properties
 			$scope.game = {
@@ -72,7 +72,8 @@
 				},
 				time			: {start: null, end: null},
 				effectID  : null,
-				minScore 	: -100
+				minScore 	: -100,
+				direction : null
 			}
 
 			// Set scope methods
@@ -234,6 +235,7 @@
 							neighbors = methods.neighbors(helper.snake.head, ", .food"),
 							neighbor 	= $(neighbors[Math.floor(Math.random()*neighbors.length)]),
 							direction = methods.direction(neighbor, head);
+					helper.direction = direction;
 					head.addClass(`snake head ${direction}`);
 					neighbor.addClass('snake');
 					helper.snake.body.push(methods.position(neighbor));
@@ -353,7 +355,7 @@
 
 				// A* Euklidesz player
 				astar_eNext: (neighbors) => {
-    			
+
 					let result		= null;
 					let openSet 	= [];
 					let closedSet = [];
@@ -402,7 +404,40 @@
 				// Human player
 				humanNext: (neighbors) => {
 					let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
-					console.log(inputs);
+					input.clearBuffer();
+					
+					let lastInput = inputs.at(-1);
+					let directionMap = {
+							"ArrowUp": "top",
+							"ArrowDown": "bottom",
+							"ArrowLeft": "start",
+							"ArrowRight": "end"
+					};
+
+					let mappedDirection = directionMap[lastInput];
+
+					let next = methods.humanMove(mappedDirection, neighbors);
+					console.log(helper.snake.head, helper.direction)
+					console.log(next);
+					console.log(methods.humanMove(helper.direction, neighbors));
+					if (!next) {
+						return methods.humanMove(helper.direction, neighbors);
+					}
+					return next;
+
+				},
+
+				humanMove: (direction, neighbors) => {
+					switch (direction) {
+						case "top":
+							return neighbors.find(e => Number(e.attr.row) === helper.snake.head.x - 1);
+						case "bottom":
+							return neighbors.find(e => Number(e.attr.row) === helper.snake.head.x + 1);
+						case "start":
+							return neighbors.find(e => Number(e.attr.row) === helper.snake.head.y - 1);
+						case "end":
+							return neighbors.find(e => Number(e.attr.row) === helper.snake.head.y + 1);
+					}
 				},
 
 				// Heurisztika: Manhattan távolság kiszámítása
@@ -460,14 +495,24 @@
 
 				// Get direction
 				direction: (from, to) => {
-					if (parseInt(from.attr("row")) === parseInt(to.attr("row")))
-						if (parseInt(from.attr("col")) < parseInt(to.attr("col")))
-									return "end";
-						else	return "start";
-					else if (parseInt(from.attr("row")) < parseInt(to.attr("row")))
-								return "bottom";
-					else	return "top";
-				},
+					let direction;
+
+					if (parseInt(from.attr("row")) === parseInt(to.attr("row"))) {
+							if (parseInt(from.attr("col")) < parseInt(to.attr("col"))) {
+									direction = "end";
+							} else {
+									direction = "start";
+							}
+					} else if (parseInt(from.attr("row")) < parseInt(to.attr("row"))) {
+							direction = "bottom";
+					} else {
+							direction = "top";
+					}
+
+					helper.direction = direction;
+
+					return direction;
+			},
 
 				// Clear interval
 				clearInterval: () => {
