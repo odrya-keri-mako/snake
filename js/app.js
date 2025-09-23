@@ -14,7 +14,7 @@
 	}
 
   // Application module
-  angular.module('app', [])
+  let app = angular.module('app', [])
 
 	// Application controller
 	.controller('appController', [
@@ -539,5 +539,7 @@
 			methods.init();
 		}
 	])
+
+	addFactory(app);
 
 })(window, angular);
