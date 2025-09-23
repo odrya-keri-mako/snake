@@ -15,7 +15,7 @@ window.addEventListener("keyup", (e) => {
 });
 
 function getInput(inputsToCheck) {
-    return inputsToCheck.filter(x => _inputs.any(y => x === y));
+    return inputsToCheck.filter(x => _inputs.some(y => x === y));
 }
 
 function addFactory(app) {
