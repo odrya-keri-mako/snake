@@ -21,7 +21,9 @@
 		'$scope',
 		'$timeout',
 		'$interval',
-		($scope, $timeout, $interval) => {
+		'input',
+		($scope, $timeout, $interval, input) => {
+
 
 			// Optons (input models)
 			$scope.options = {
@@ -395,6 +397,12 @@
 								result = methods.getCell(result[1]);
 					else 	result = methods.greedyNext(neighbors);
 					return result;
+				},
+
+				// Human player
+				humanNext: (neighbors) => {
+					let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
+					console.log(inputs);
 				},
 
 				// Heurisztika: Manhattan távolság kiszámítása
