@@ -1,4 +1,5 @@
 let _inputs = [];
+let _toRemove = [];
 
 window.addEventListener("keydown", (e) => {
     if (_inputs.includes(e.key)) return;
@@ -7,21 +8,28 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keyup", (e) => {
-    let index = _inputs.indexOf(e.key);
+    if (_toRemove.includes(e.key)) return;
     
-    if (index === -1) return;
-
-    _inputs.splice(index, 1);
+    _toRemove.push(e.key);
 });
 
 function getInput(inputsToCheck) {
     return inputsToCheck.filter(x => _inputs.some(y => x === y));
 }
 
-function addFactory(app) {
-    let inputs = [];
+function clearBuffer() {
+    for (let x of _toRemove) {
+        let index = _inputs.indexOf(x);
 
+        if (index === -1) continue;
+
+        _inputs.splice(index, 1);
+    }
+}
+
+function addFactory(app) {
     app.factory("input", () => ({
-        get: getInput
+        get: getInput,
+        clearBuffer
     }));
 }
