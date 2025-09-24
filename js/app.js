@@ -43,7 +43,8 @@
 				// if (index !== -1) 
 				// 	$scope.options.playerID = $scope.options.players[index].id;
 				$scope.options.playerID = "human";
-
+				$scope.baseOptions = structuredClone($scope.options);
+				
 				// Game properties
 				$scope.game = {
 					status: "stopped",
@@ -137,6 +138,14 @@
 							$scope.game.attempt = 0;
 							localStorage.removeItem("snake_game_attempt");
 							localStorage.removeItem("snake_game_peak");
+						}
+					},
+					
+					// Reset options
+					resetOptions: () => {
+						if (window.confirm("Do you really want to reset?")) {
+							$scope.options = structuredClone($scope.baseOptions);
+
 						}
 					}
 				};
@@ -419,10 +428,7 @@
 
 						
 						let next = methods.humanMove(mappedDirection, neighbors);
-						console.log(next)
 						if (!next) {
-							console.log(helper.direction)
-							console.log($(methods.humanMove(helper.direction, neighbors)))
 							return $(methods.humanMove(helper.direction, neighbors));
 						}
 						return $(next);
