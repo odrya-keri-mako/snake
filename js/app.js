@@ -33,6 +33,7 @@
 					autoPlay: false,
 					players: [
 						{ id: 'human', valid: true, name: 'Human' },
+						{ id: 'human_mp', valid: true, name: '2 player mode'},
 						{ id: 'astar_e', valid: true, name: 'A* Euklidesz' }
 					],
 					playerID: null
@@ -71,10 +72,18 @@
 						head: { x: null, y: null },
 						body: []
 					},
+					snake2 : {
+						head: { x: null, y: null},
+						body: []
+					},
 					time: { start: null, end: null },
 					effectID: null,
 					minScore: -100,
-					direction: null
+					direction: null,
+					direction2: null
+				}
+				if ($scope.options.playerID == "human_mp") {
+					helper.minScore = -Infinity;
 				}
 
 				// Set scope methods
@@ -232,14 +241,22 @@
 
 						// Remove entries from cells
 						helper.body.find('td')
-							.removeClass('snake head food stone start end top bottom');
+							.removeClass('snake snake2 head food stone start end top bottom');
 						$scope.game.snakeLength = 2;
 						$scope.game.countdown = null;
 						helper.snake.body = [];
-						helper.snake.head = {
-							x: Math.floor(($scope.options.size.x - 1) / 2),
-							y: Math.floor(($scope.options.size.y - 1) / 2)
-						};
+
+						if ($scope.options.playerID == "human_mp") {
+							helper.snake.head = {
+								x: 5,
+								y: 22
+							};
+						} else {
+							helper.snake.head = {
+								x: Math.floor(($scope.options.size.x - 1) / 2),
+								y: Math.floor(($scope.options.size.y - 1) / 2)
+							};
+						}
 						let head = methods.getCell(helper.snake.head),
 							neighbors = methods.neighbors(helper.snake.head, ", .food"),
 							neighbor = $(neighbors[Math.floor(Math.random() * neighbors.length)]),
@@ -248,6 +265,25 @@
 						head.addClass(`snake head ${direction}`);
 						neighbor.addClass('snake');
 						helper.snake.body.push(methods.position(neighbor));
+
+						// If multiplayer, set second snake, set first to viable position
+						if ($scope.options.playerID == "human_mp") {
+							helper.snake2.body = [];
+							helper.snake2.head = {
+								x: 5,
+								y: 2
+							};
+							
+							let head2 = methods.getCell(helper.snake2.head),
+								neighbors2 = methods.neighbors(helper.snake2.head, ", .food"),
+								neighbor2 = $(neighbors2[Math.floor(Math.random() * neighbors2.length)]),
+								direction2 = "end";
+							helper.direction2 = direction2;
+							head2.addClass(`snake2 head ${direction2}`);
+							neighbor2.addClass('snake2');
+							helper.snake2.body.push(methods.position(neighbor2));
+						}
+
 						methods.setStones();
 						methods.setFood();
 					},
@@ -272,7 +308,9 @@
 						// and define variable for later use
 						let food = neighbors.filter(".food"),
 							next = null;
-						if ($scope.options.playerID === "human") next = methods[`${$scope.options.playerID}Next`](neighbors);
+						if ($scope.options.playerID === "human" || $scope.options.playerID === "human_mp") {
+							next = methods[`${$scope.options.playerID}Next`](neighbors);
+						}
 						else if (!food.length) {
 							if (neighbors.length > 1)
 
@@ -439,11 +477,42 @@
 						dropInput(direction);
 
 						if (!next) {
-							console.log($(methods.humanMove(helper.direction, neighbors)))
 							return $(methods.humanMove(helper.direction, neighbors));
 						}
 						return $(next);
 
+					},
+
+					human_mpNext : (neighbors) => {
+						let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
+						input.clearBuffer();
+
+						let directionMap = {
+							"ArrowUp": "top",
+							"ArrowDown": "bottom",
+							"ArrowLeft": "start",
+							"ArrowRight": "end"
+						};
+
+						let next;
+						let direction;
+						while (inputs.length !== 0) {
+							direction = inputs.pop();
+							let mappedDirection = directionMap[direction];
+
+							if (mappedDirection === helper.direction) continue;
+
+							next = methods.humanMove(mappedDirection, neighbors);
+							if (!next) continue;
+							if (!next.classList.contains("snake")) break;
+						}
+
+						dropInput(direction);
+
+						if (!next) {
+							return $(methods.humanMove(helper.direction, neighbors));
+						}
+						return $(next);
 					},
 
 					humanMove: (direction, neighbors) => {
@@ -516,7 +585,6 @@
 					// Get direction
 					direction: (from, to) => {
 						let direction;
-
 						if (parseInt(from.attr("row")) === parseInt(to.attr("row"))) {
 							if (parseInt(from.attr("col")) < parseInt(to.attr("col"))) {
 								direction = "end";

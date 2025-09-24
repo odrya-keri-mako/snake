@@ -54,6 +54,13 @@ table.game-panel td.snake {
 table.game-panel td.snake.head {
 	background-color: green;
 }
+table.game-panel td.snake2 {
+	background-color: red;
+	box-shadow:0px 0px 0px 1px #212529 inset;
+}
+table.game-panel td.snake2.head {
+	background-color: rgb(170, 0, 0);
+}
 table.game-panel td.snake.head.start::after,
 table.game-panel td.snake.head.end::after,
 table.game-panel td.snake.head.top::after,
@@ -78,6 +85,32 @@ table.game-panel td.snake.head.top::after {
 	top:-6px;
 }
 table.game-panel td.snake.head.bottom::after {
+	bottom:-6px;
+}
+table.game-panel td.snake2.head.start::after,
+table.game-panel td.snake2.head.end::after,
+table.game-panel td.snake2.head.top::after,
+table.game-panel td.snake2.head.bottom::after {
+	content: ":";
+  white-space: pre;
+	font-size: 18px;
+	font-weight: bold;
+	position: absolute;
+}
+table.game-panel td.snake2.head.top::after,
+table.game-panel td.snake2.head.bottom::after {
+	transform: rotate(90deg);
+}
+table.game-panel td.snake2.head.start::after {
+	left:5px;
+}
+table.game-panel td.snake2.head.end::after {
+	right:5px;
+}
+table.game-panel td.snake2.head.top::after {
+	top:-6px;
+}
+table.game-panel td.snake2.head.bottom::after {
 	bottom:-6px;
 }
 .game-container {
