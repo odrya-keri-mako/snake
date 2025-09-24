@@ -14,7 +14,7 @@ window.addEventListener("keyup", (e) => {
 });
 
 function getInput(inputsToCheck) {
-    return inputsToCheck.filter(x => _inputs.some(y => x === y));
+    return _inputs.filter(x => inputsToCheck.some(y => x === y));
 }
 
 function clearBuffer() {
@@ -25,6 +25,16 @@ function clearBuffer() {
 
         _inputs.splice(index, 1);
     }
+
+    _toRemove = [];
+}
+
+function dropInput(inputToDrop) {
+    let index = _inputs.indexOf(inputToDrop);
+
+    if (index === -1) return;
+
+    _inputs.splice(index, 1);
 }
 
 function addFactory(app) {

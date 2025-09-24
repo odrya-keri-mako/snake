@@ -407,7 +407,6 @@
 						let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
 						input.clearBuffer();
 
-						let lastInput = inputs.at(-1);
 						let directionMap = {
 							"ArrowUp": "top",
 							"ArrowDown": "bottom",
@@ -415,14 +414,22 @@
 							"ArrowRight": "end"
 						};
 
-						let mappedDirection = directionMap[lastInput];
+						let next;
+						let direction;
+						while (inputs.length !== 0) {
+							direction = inputs.pop();
+							let mappedDirection = directionMap[direction];
 
-						
-						let next = methods.humanMove(mappedDirection, neighbors);
-						console.log(next)
+							if (mappedDirection === helper.direction) continue;
+
+							next = methods.humanMove(mappedDirection, neighbors);
+							if (!next) continue;
+							if (!next.classList.contains("snake")) break;
+						}
+
+						dropInput(direction);
+
 						if (!next) {
-							console.log(helper.direction)
-							console.log($(methods.humanMove(helper.direction, neighbors)))
 							return $(methods.humanMove(helper.direction, neighbors));
 						}
 						return $(next);
