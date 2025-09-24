@@ -259,8 +259,12 @@
 						}
 						let head = methods.getCell(helper.snake.head),
 							neighbors = methods.neighbors(helper.snake.head, ", .food"),
-							neighbor = $(neighbors[Math.floor(Math.random() * neighbors.length)]),
+							neighbor = 
+								$scope.options.playerID == "human_mp" 
+									? $(neighbors[2]) 
+									: $(neighbors[Math.floor(Math.random() * neighbors.length)]),
 							direction = methods.direction(neighbor, head);
+							
 						helper.direction = direction;
 						head.addClass(`snake head ${direction}`);
 						neighbor.addClass('snake');
@@ -276,7 +280,7 @@
 							
 							let head2 = methods.getCell(helper.snake2.head),
 								neighbors2 = methods.neighbors(helper.snake2.head, ", .food"),
-								neighbor2 = $(neighbors2[Math.floor(Math.random() * neighbors2.length)]),
+								neighbor2 = $(neighbors2[1]),
 								direction2 = "end";
 							helper.direction2 = direction2;
 							head2.addClass(`snake2 head ${direction2}`);
