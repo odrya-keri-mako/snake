@@ -263,13 +263,14 @@
 						// and define variable for later use
 						let food = neighbors.filter(".food"),
 							next = null;
-						if (!food.length) {
+						if ($scope.options.playerID === "human") next = methods[`${$scope.options.playerID}Next`](neighbors);
+						else if (!food.length) {
 							if (neighbors.length > 1)
 
 								// Call player algorithm
 								next = methods[`${$scope.options.playerID}Next`](neighbors);
 							else next = neighbors;
-						} else next = food;
+						} else  next = food;
 
 						// Move
 						methods.move(next);
@@ -416,27 +417,29 @@
 
 						let mappedDirection = directionMap[lastInput];
 
+						
 						let next = methods.humanMove(mappedDirection, neighbors);
-						console.log(helper.snake.head, helper.direction)
-						console.log(next);
-						console.log(methods.humanMove(helper.direction, neighbors));
+						console.log(next)
 						if (!next) {
-							return methods.humanMove(helper.direction, neighbors);
+							console.log(helper.direction)
+							console.log($(methods.humanMove(helper.direction, neighbors)))
+							return $(methods.humanMove(helper.direction, neighbors));
 						}
-						return next;
+						return $(next);
 
 					},
 
 					humanMove: (direction, neighbors) => {
+						let neighborsArray = [...neighbors];
 						switch (direction) {
 							case "top":
-								return neighbors.find(e => Number(e.attr.row) === helper.snake.head.x - 1);
+								return neighborsArray.find(e => Number(e.getAttribute("row")) === helper.snake.head.x - 1);
 							case "bottom":
-								return neighbors.find(e => Number(e.attr.row) === helper.snake.head.x + 1);
+								return neighborsArray.find(e => Number(e.getAttribute("row")) === helper.snake.head.x + 1);
 							case "start":
-								return neighbors.find(e => Number(e.attr.row) === helper.snake.head.y - 1);
+								return neighborsArray.find(e => Number(e.getAttribute("col")) === helper.snake.head.y - 1);
 							case "end":
-								return neighbors.find(e => Number(e.attr.row) === helper.snake.head.y + 1);
+								return neighborsArray.find(e => Number(e.getAttribute("col")) === helper.snake.head.y + 1);
 						}
 					},
 
