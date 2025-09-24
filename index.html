@@ -151,6 +151,7 @@
             					 required
             					 min="10"
 											 max="30"
+								 			 onkeydown="return false"
             					 ng-model="options.size.x"
 											 ng-disabled="game.status!=='stopped'">
     					</div>
@@ -171,6 +172,7 @@
             					 required
             					 min="10"
 											 max="40"
+								 			 onkeydown="return false"
             					 ng-model="options.size.y"
 											 ng-disabled="game.status!=='stopped'">
     					</div>
@@ -191,6 +193,7 @@
 											 required
 											 min="0"
 											 max="{{game.maxStones}}"
+								 			 onkeydown="return false"
 											 ng-model="options.stones"
 											 ng-disabled="game.status!=='stopped'">
 							</div>
@@ -217,7 +220,7 @@
 						</div>
 
 						<!-- Player -->
-						<div class="row mb-1">
+						<div class="row mb-2">
 							<label for="snake-player" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">player:</span>
@@ -231,6 +234,22 @@
 												required
 												style="min-width:170px;"
 												ng-disabled="game.status!=='stopped'">
+								</select>
+							</div>
+						</div>
+
+						<!-- Reset Options -->
+						<div class="row mb-1">
+							<label for="reset" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">Reset options:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<button id="reset"
+												class="btn btn-outline-danger w-100 h-100"
+												ng-click="methods.resetOptions()"
+												ng-disabled="game.status!=='stopped'"> Reset!
+								</button>
 								</select>
 							</div>
 						</div>
