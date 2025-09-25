@@ -141,43 +141,43 @@
 						<!-- Row -->
 						<div class="row mb-2">
 							<label for="panel-size-x" 
-           					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-      					<span class="text-capitalize">row:</span>
-    					</label>
-    					<div class="col-12 col-md-7">
-      					<input id="panel-size-x"
-            					 class="form-control form-control-sm"
-            					 name="x" 
-            					 type="number"
-            					 autocomplete="off" 
-            					 required
-            					 min="10"
+		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+	  					<span class="text-capitalize">row:</span>
+						</label>
+						<div class="col-12 col-md-7">
+	  					<input id="panel-size-x"
+								 class="form-control form-control-sm"
+								 name="x" 
+								 type="number"
+								 autocomplete="off" 
+								 required
+								 min="10"
 											 max="30"
 								 			 onkeydown="return false"
-            					 ng-model="options.size.x"
+								 ng-model="options.size.x"
 											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
-    					</div>
+						</div>
 						</div>
 
 						<!-- Col -->
 						<div class="row mb-2">
 							<label for="panel-size-y" 
-           					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-      					<span class="text-capitalize">col:</span>
-    					</label>
-    					<div class="col-12 col-md-7">
-      					<input id="panel-size-y"
-            					 class="form-control form-control-sm"
-            					 name="y" 
-            					 type="number"
-            					 autocomplete="off" 
-            					 required
-            					 min="10"
-											 max="40"
-								 			 onkeydown="return false"
-            					 ng-model="options.size.y"
-											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
-    					</div>
+		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+	  					<span class="text-capitalize">col:</span>
+						</label>
+						<div class="col-12 col-md-7">
+	  					<input id="panel-size-y"
+								 class="form-control form-control-sm"
+								 name="y" 
+								 type="number"
+								 autocomplete="off" 
+								 required
+								 min="10"
+								 max="40"
+								 onkeydown="return false"
+								 ng-model="options.size.y"
+								 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
+						</div>
 						</div>
 
 						<!-- Stones -->
