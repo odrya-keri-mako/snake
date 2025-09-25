@@ -602,7 +602,7 @@
 													 td[row="${pos.x}"][col="${pos.y + 1}"]`,
 								neighbors;
 							if ($scope.options.isHuman) {
-								neighbors = helper.body.find(skeleton)
+								neighbors = helper.body.find(skeleton).not(".snake")
 							} else {
 								neighbors = helper.body.find(skeleton).not(`.snake, .head, .stone${className}`);
 							}
