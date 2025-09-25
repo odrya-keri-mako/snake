@@ -46,12 +46,7 @@
 				// if (index !== -1) 
 				// 	$scope.options.playerID = $scope.options.players[index].id;
 				$scope.options.playerID = "human";
-				if ($scope.options.playerID == "human" || $scope.options.playerID == "human_mp") {
-					$scope.options.isHuman = true;
-					if ($scope.options.playerID == "human_mp") {
-						$scope.options.isMP = true;
-					}
-				}
+				
 				$scope.baseOptions = structuredClone($scope.options);
 				
 				// Game properties
@@ -106,6 +101,9 @@
 						// Clear inputs
 						input.clearBuffer();
 
+						// Check human
+						methods.checkHuman();
+
 						// When is not paused, then reset properties
 						if ($scope.game.status !== "paused") {
 							helper.time.start = new Date();
@@ -148,6 +146,7 @@
 
 					// Refresh
 					refresh: () => {
+						methods.checkHuman();
 						methods.reset();
 					},
 
@@ -478,7 +477,13 @@
 						let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
 						input.clearBuffer();
 
-						if (!$scope.game.startedMoving && inputs.length === 0) return
+						if (!$scope.game.startedMoving && inputs.length === 0) {
+							$scope.game.score = 0;
+							$scope.game.steps = 0;
+							$scope.game.time  = "0.00";
+
+							return
+						} 
 						$scope.game.startedMoving = true;
 
 						let directionMap = {
@@ -563,6 +568,21 @@
 					heuristic: (x1, y1, x2, y2) => {
 						return Math.abs(x1 - x2) + Math.abs(y1 - y2);
 					},
+
+					// Check is human
+					checkHuman: () => {
+						if ($scope.options.playerID == "human" || $scope.options.playerID == "human_mp") {
+							$scope.options.isHuman = true;
+							if ($scope.options.playerID == "human_mp") {
+								$scope.options.isMP = true;
+							} else {
+								$scope.options.isMP = false;
+							}
+						} else {
+							$scope.options.isHuman = false;
+						}
+					},
+						
 
 					// Set food
 					setFood: () => {
