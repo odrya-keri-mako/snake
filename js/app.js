@@ -608,16 +608,8 @@
 
 					// Check is human
 					checkHuman: () => {
-						if ($scope.options.playerID == "human" || $scope.options.playerID == "human_mp") {
-							$scope.options.isHuman = true;
-							if ($scope.options.playerID == "human_mp") {
-								$scope.options.isMP = true;
-							} else {
-								$scope.options.isMP = false;
-							}
-						} else {
-							$scope.options.isHuman = false;
-						}
+						$scope.options.isHuman = $scope.options.playerID === "human" || $scope.options.playerID === "human_mp";
+						$scope.options.isMP = $scope.options.playerID === "human_mp";
 					},
 
 					// Get squished
