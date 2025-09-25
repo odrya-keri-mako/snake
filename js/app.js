@@ -377,7 +377,7 @@
 
 					// Move
 					move: (next) => {
-						if (!$scope.game.startedMoving) return;
+						if ($scope.options.isHuman && !$scope.game.startedMoving) return;
 
 						// Get head, and direction
 						let head = methods.getCell(helper.snake.head),
