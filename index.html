@@ -82,7 +82,9 @@
 					<button type="button" 
 									class="btn btn-sm btn-warning w-auto mx-3"
 									ng-click="methods.pause()"
-									ng-disabled="game.status!=='started'&&game.status!=='paused'">
+									ng-disabled="(game.status!=='started'&&game.status!=='paused')
+												  		  ||$scope.options.playerID == 'human'
+																||$scope.options.playerID == 'human_mp'">
 						<i class="fa-solid fa-pause me-1"></i>
 						<span class="text-capitalize">pause</span>
 					</button>
@@ -229,6 +231,7 @@
 								<select id="snake-player"
 												class="form-select"
 												ng-model="options.playerID" 
+												ng-change="methods.refresh()"
 												ng-options="x.id as x.name disable when !x.valid 
 																		for x in options.players"
 												required
