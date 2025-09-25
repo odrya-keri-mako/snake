@@ -95,6 +95,9 @@
 						// Clear interval when exist
 						methods.clearInterval();
 
+						// Clear inputs
+						input.clearBuffer();
+
 						// When is not paused, then reset properties
 						if ($scope.game.status !== "paused") {
 							helper.time.start = new Date();
