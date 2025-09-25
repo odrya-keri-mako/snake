@@ -384,6 +384,8 @@
 							helper.countdownID = $interval(() => {
 								$scope.game.countdown--;
 							}, 1000);
+						} else if ($scope.options.isHuman) {
+							$scope.methods.stop();
 						}
 					},
 
@@ -608,8 +610,16 @@
 
 					// Check is human
 					checkHuman: () => {
-						$scope.options.isHuman = $scope.options.playerID === "human" || $scope.options.playerID === "human_mp";
-						$scope.options.isMP = $scope.options.playerID === "human_mp";
+						if ($scope.options.playerID == "human" || $scope.options.playerID == "human_mp") {
+							$scope.options.isHuman = true;
+							if ($scope.options.playerID == "human_mp") {
+								$scope.options.isMP = true;
+							} else {
+								$scope.options.isMP = false;
+							}
+						} else {
+							$scope.options.isHuman = false;
+						}
 					},
 
 					// Get squished
