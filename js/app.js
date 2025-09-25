@@ -36,7 +36,9 @@
 						{ id: 'human_mp', valid: true, name: '2 player mode'},
 						{ id: 'astar_e', valid: true, name: 'A* Euklidesz' }
 					],
-					playerID: null
+					playerID: null,
+					isHuman: false,
+					isMP: false
 				}
 
 				// Find first valid player
@@ -44,6 +46,12 @@
 				// if (index !== -1) 
 				// 	$scope.options.playerID = $scope.options.players[index].id;
 				$scope.options.playerID = "human";
+				if ($scope.options.playerID == "human" || $scope.options.playerID == "human_mp") {
+					$scope.options.isHuman = true;
+					if ($scope.options.playerID == "human_mp") {
+						$scope.options.isMP = true;
+					}
+				}
 				$scope.baseOptions = structuredClone($scope.options);
 				
 				// Game properties
@@ -82,7 +90,7 @@
 					direction: null,
 					direction2: null
 				}
-				if ($scope.options.playerID == "human_mp") {
+				if ($scope.options.isMP) {
 					helper.minScore = -Infinity;
 				}
 
@@ -249,7 +257,7 @@
 						$scope.game.countdown = null;
 						helper.snake.body = [];
 
-						if ($scope.options.playerID == "human_mp") {
+						if ($scope.options.isMP) {
 							helper.snake.head = {
 								x: 5,
 								y: 22
@@ -263,7 +271,7 @@
 						let head = methods.getCell(helper.snake.head),
 							neighbors = methods.neighbors(helper.snake.head, ", .food"),
 							neighbor = 
-								$scope.options.playerID == "human_mp" 
+								$scope.options.isMP 
 									? $(neighbors[2]) 
 									: $(neighbors[Math.floor(Math.random() * neighbors.length)]),
 							direction = methods.direction(neighbor, head);
@@ -274,7 +282,7 @@
 						helper.snake.body.push(methods.position(neighbor));
 
 						// If multiplayer, set second snake, set first to viable position
-						if ($scope.options.playerID == "human_mp") {
+						if ($scope.options.isMP) {
 							helper.snake2.body = [];
 							helper.snake2.head = {
 								x: 5,
@@ -577,7 +585,12 @@
 													 td[row="${pos.x + 1}"][col="${pos.y}"],
 													 td[row="${pos.x}"][col="${pos.y - 1}"],
 													 td[row="${pos.x}"][col="${pos.y + 1}"]`,
-							neighbors = helper.body.find(skeleton).not(`.snake, .head, .stone${className}`);
+								neighbors;
+							if ($scope.options.isHuman) {
+								neighbors = helper.body.find(skeleton)
+							} else {
+								neighbors = helper.body.find(skeleton).not(`.snake, .head, .stone${className}`);
+							}
 						return neighbors;
 					},
 
