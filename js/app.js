@@ -25,7 +25,7 @@
 			($scope, $timeout, $interval, input) => {
 
 
-				// Optons (input models)
+				// Options (input models)
 				$scope.options = {
 					size: { x: 15, y: 25 },
 					stones: 0,
@@ -83,8 +83,11 @@
 					effectID: null,
 					minScore: -100,
 					direction: null,
+					prevDirection: null,
 					direction2: null
 				}
+
+				// Disable minScore if multiplayer
 				if ($scope.options.isMP) {
 					helper.minScore = -Infinity;
 				}
@@ -263,6 +266,8 @@
 						$scope.game.countdown = null;
 						helper.snake.body = [];
 
+						// If multiplayer, set snake to mp position
+						// If not, random orientation in base position
 						if ($scope.options.isMP) {
 							helper.snake.head = {
 								x: 5,
@@ -274,6 +279,8 @@
 								y: Math.floor(($scope.options.size.y - 1) / 2)
 							};
 						}
+
+						// Random or set orientation based on if it's MP
 						let head = methods.getCell(helper.snake.head),
 							neighbors = methods.neighbors(helper.snake.head, ", .food"),
 							neighbor = 
@@ -325,7 +332,7 @@
 							return;
 						}
 
-						// Check that one of the neighbors is an food, 
+						// Check that one of the neighbors is food, 
 						// and define variable for later use
 						let food = neighbors.filter(".food"),
 							next = null;
@@ -334,13 +341,21 @@
 						}
 						else if (!food.length) {
 							if (neighbors.length > 1)
-
+								
 								// Call player algorithm
 								next = methods[`${$scope.options.playerID}Next`](neighbors);
-							else next = neighbors;
-						} else  next = food;
-
+								else next = neighbors;
+							} else  next = food;
+							
 						// Move
+						if (next != null)
+						if (next.hasClass("snake")) { 
+							let head = methods.getCell(helper.snake.head);
+							
+							head.addClass($scope.lastInput);
+
+							methods.ended();
+						}
 						methods.move(next);
 					},
 
@@ -354,6 +369,9 @@
 					// Game ended
 					ended: () => {
 
+						// If going outside the map, keep head
+						if (!helper.snake.head.x) methods.squish();
+					
 						// Clear interval, set satus, and stop the game
 						methods.clearInterval();
 						helper.audioEnded.play();
@@ -473,7 +491,7 @@
 					},
 
 					// Human player
-					humanNext: (neighbors) => {
+					humanNext: () => {
 						let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
 						input.clearBuffer();
 
@@ -501,16 +519,21 @@
 
 							if (mappedDirection === helper.direction) continue;
 
-							next = methods.humanMove(mappedDirection, neighbors);
+							if (mappedDirection == methods.oppositeDirection(helper.direction)) {
+								continue;
+							}
+							next = methods.humanMove(mappedDirection);
 							if (!next) continue;
-							if (!next.classList.contains("snake")) break;
+							if (!next.hasClass("snake")) break;
 						}
 
+						$scope.lastInput = directionMap[direction];
 						dropInput(direction);
 
 						if (!next) {
-							return $(methods.humanMove(helper.direction, neighbors));
+							return $(methods.humanMove(helper.direction));
 						}
+						
 						return $(next);
 
 					},
@@ -550,17 +573,31 @@
 						return $(next);
 					},
 
-					humanMove: (direction, neighbors) => {
-						let neighborsArray = [...neighbors];
+					// Get next cell based on direction
+					humanMove: (direction) => {
 						switch (direction) {
 							case "top":
-								return neighborsArray.find(e => Number(e.getAttribute("row")) === helper.snake.head.x - 1);
+								return methods.getCell({x: helper.snake.head.x - 1, y: helper.snake.head.y});
 							case "bottom":
-								return neighborsArray.find(e => Number(e.getAttribute("row")) === helper.snake.head.x + 1);
+								return methods.getCell({x: helper.snake.head.x + 1, y: helper.snake.head.y});
 							case "start":
-								return neighborsArray.find(e => Number(e.getAttribute("col")) === helper.snake.head.y - 1);
+								return methods.getCell({x: helper.snake.head.x, y: helper.snake.head.y - 1});
 							case "end":
-								return neighborsArray.find(e => Number(e.getAttribute("col")) === helper.snake.head.y + 1);
+								return methods.getCell({x: helper.snake.head.x, y: helper.snake.head.y + 1});
+						}
+					},
+
+					// Get opposite of given direction
+					oppositeDirection: (direction) => {
+						switch (direction) {
+							case "top":
+								return "bottom";
+							case "bottom":
+								return "top";
+							case "start":
+								return "end";
+							case "end":
+								return "start";
 						}
 					},
 
@@ -582,8 +619,14 @@
 							$scope.options.isHuman = false;
 						}
 					},
-						
 
+					// Get squished
+					squish: () => {
+						let firstBody = methods.getCell(helper.snake.body[0])[0];
+						firstBody.classList.add("head");
+						firstBody.classList.add(helper.prevDirection);
+					},
+						
 					// Set food
 					setFood: () => {
 						let freeCels = helper.body.find("td").not(".snake, .head, .food, .stone");
@@ -652,6 +695,7 @@
 							direction = "top";
 						}
 
+						helper.prevDirection = helper.direction;
 						helper.direction = direction;
 
 						return direction;
