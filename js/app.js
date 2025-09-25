@@ -238,6 +238,13 @@
 
 					// Reset
 					reset: () => {
+						if ($scope.options.playerID !== "astar_e") {
+							$scope.options.size = {
+								x: 15,
+								y: 25
+							};
+							$scope.options.stones = 0;
+						}
 
 						// Remove entries from cells
 						helper.body.find('td')
