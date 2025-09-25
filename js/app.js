@@ -249,6 +249,13 @@
 
 					// Reset
 					reset: () => {
+						if ($scope.options.playerID !== "astar_e") {
+							$scope.options.size = {
+								x: 15,
+								y: 25
+							};
+							$scope.options.stones = 0;
+						}
 
 						// Remove entries from cells
 						helper.body.find('td')
@@ -352,6 +359,7 @@
 						methods.clearInterval();
 						helper.audioEnded.play();
 						$scope.game.status = "ended";
+						$scope.game.startedMoving = false;
 
 						// Check autoplay
 						if ($scope.options.autoPlay) {
@@ -369,6 +377,7 @@
 
 					// Move
 					move: (next) => {
+						if (!$scope.game.startedMoving) return;
 
 						// Get head, and direction
 						let head = methods.getCell(helper.snake.head),
@@ -469,6 +478,9 @@
 						let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
 						input.clearBuffer();
 
+						if (!$scope.game.startedMoving && inputs.length === 0) return
+						$scope.game.startedMoving = true;
+
 						let directionMap = {
 							"ArrowUp": "top",
 							"ArrowDown": "bottom",
@@ -501,6 +513,9 @@
 					human_mpNext : (neighbors) => {
 						let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
 						input.clearBuffer();
+
+						if (!$scope.game.startedMoving && inputs.length === 0) return
+						$scope.game.startedMoving = true;
 
 						let directionMap = {
 							"ArrowUp": "top",

@@ -155,7 +155,7 @@
 											 max="30"
 								 			 onkeydown="return false"
             					 ng-model="options.size.x"
-											 ng-disabled="game.status!=='stopped'">
+											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
     					</div>
 						</div>
 
@@ -176,7 +176,7 @@
 											 max="40"
 								 			 onkeydown="return false"
             					 ng-model="options.size.y"
-											 ng-disabled="game.status!=='stopped'">
+											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
     					</div>
 						</div>
 
@@ -197,7 +197,7 @@
 											 max="{{game.maxStones}}"
 								 			 onkeydown="return false"
 											 ng-model="options.stones"
-											 ng-disabled="game.status!=='stopped'">
+											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
 							</div>
 						</div>
 
