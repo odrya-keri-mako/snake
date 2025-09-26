@@ -1,0 +1,44 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Regisztráció</h2>
+    
+    <form name="registrationForm" 
+					ng-submit="submitForm()"
+					class="form " 
+					novalidate>
+
+      <!-- Név -->
+      <div class="form-group" 
+					 ng-class="{'has-error': registrationForm.name.$touched && registrationForm.name.$invalid}">
+        <label for="name">Teljes név</label>
+        <input type="text" 
+							 class="form-control" 
+							 id="name" 
+							 name="name" 
+							 ng-model="data.name" 
+							 required>
+        <div class="text-danger" 
+						 ng-show="registrationForm.name.$touched && registrationForm.name.$invalid">
+          A név megadása kötelező.
+        </div>
+      </div>
+
+      <!-- Pontok, lacikám -->
+      <div class="form-group" 
+			     ng-class="{'has-error': registrationForm.email.$touched && registrationForm.email.$invalid}">
+        <label for="score">Pontok:</label>
+        <input type="text" 
+							 class="form-control" 
+							 id="score" 
+							 name="score" 
+							 ng-model="data.score"
+							 disabled>
+      </div>
+
+      <!-- Gomb -->
+      <button type="submit" 
+							class="btn btn-primary mt-3" 
+							ng-disabled="registrationForm.$invalid"
+							ng-click="register()">
+        Regisztráció
+      </button>
+    </form>
