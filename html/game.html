@@ -96,7 +96,7 @@
 									 ng-model="options.autoPlay"
 									 ng-disabled="game.status!=='stopped'">
 						<label class="form-check-label" for="autoPlay">
-							auto play
+							auto {{options.isHuman ? "refresh" : "play"}}
 						</label>
 					</div>
 				</div>
