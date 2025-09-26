@@ -14,15 +14,40 @@
 	}
 
 	// Application module
-	let app = angular.module('app', [])
+	let app = angular.module('app', [
+		'ui.router'
+	])
 
-		// Application controller
-		.controller('appController', [
+		.config([
+			'$stateProvider',
+			'$urlRouterProvider',
+			function($stateProvider, $urlRouterProvider) {
+				$stateProvider
+				.state('root', {
+					abstract: true,
+					views: {
+						'@': {
+							templateUrl: './html/root.html'
+						}
+					}
+				})
+				.state('game', {
+            url: '/',
+            parent: 'root',
+            controller: 'gameController',
+            templateUrl: './html/game.html'
+          })
+				$urlRouterProvider.otherwise('/');
+		}
+		])
+
+		// Game controller
+		.controller('gameController', [
 			'$scope',
 			'$timeout',
 			'$interval',
 			'input',
-			($scope, $timeout, $interval, input) => {
+			function($scope, $timeout, $interval, input) {
 
 
 				// Options (input models)

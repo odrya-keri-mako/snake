@@ -1,0 +1,372 @@
+<!-- Title/Logo -->
+		<div class="row justify-content-center mt-3">
+
+			<!-- Title/countdown -->
+			<div class="display-6 text-center col-9">
+				<img ng-src="./img/snake.ico" width="50" height="50" alt="snake">
+				<span class="ms-2">Snake game AI</span>
+				<span class="ms-5 text-center d-inline-block fw-bold text-warning"
+							style="width:30px!important;"
+							ng-class="{'invisible': game.countdown === null}">
+					{{game.countdown}}
+				</span>
+			</div>
+
+			<!-- Logo -->
+			<div class="text-center col-3 m-0 p-0 d-flex align-items-center justify-content-center">
+				<div class="logo bg-img bg-img-contain m-0 p-0"></div>
+				<h3 class="ms-3 d-inline-block w-auto">
+					<span class="fs-3">KERI</span>
+					<span class="fs-5 m2-1">Makó</span>
+				</h3>
+			</div>
+		</div>
+
+		<!-- Game/Options/Audio -->
+		<div class="row justify-content-center my-3">
+
+			<!-- Game panel -->
+			<div class="col-12 col-xxl-9 mb-0">
+
+				<!-- Panel -->
+				<div class="row justify-content-center mb-3">
+					<div class="game-container d-table w-auto p-0 m-0"
+							 ng-class="{'border-blink': game.status === 'ended'}">	
+						<table class="game-panel table table-bordered w-auto m-0">
+							<tbody>
+								<tr ng-repeat="row in [].constructor(options.size.x) track by $index">
+									<td class="p-0 text-center position-relative"
+											ng-repeat="col in [].constructor(options.size.y) track by $index"
+											row="{{$parent.$index}}" col="{{$index}}">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- Buttons -->
+				<div class="row justify-content-center mt-3">
+
+					<!-- Start -->
+					<button type="button" 
+									class="btn btn-sm btn-success w-auto mx-3"
+									ng-click="methods.start()"
+									ng-disabled="game.status==='started'||game.status==='ended'">
+						<i class="fa-solid fa-play me-1"></i>
+						<span class="text-capitalize">start</span>
+					</button>
+
+					<!-- Pause -->
+					<button type="button" 
+									class="btn btn-sm btn-warning w-auto mx-3"
+									ng-click="methods.pause()"
+									ng-disabled="(game.status!=='started'&&game.status!=='paused')
+												  		  || options.playerID == 'human'
+																|| options.playerID == 'human_mp'">
+						<i class="fa-solid fa-pause me-1"></i>
+						<span class="text-capitalize">pause</span>
+					</button>
+
+					<!-- Stop -->
+					<button type="button" 
+									class="btn btn-sm btn-danger w-auto mx-3"
+									ng-click="methods.stop()"
+									ng-disabled="game.status==='stopped'">	
+						<i class="fa-solid fa-stop me-1"></i>
+						<span class="text-capitalize">stop</span>
+					</button>
+
+					<!-- Refresh -->
+					<button type="button" 
+									class="btn btn-sm btn-info w-auto mx-3"
+									ng-click="methods.refresh()"
+									ng-disabled="game.status!=='stopped'">	
+						<i class="fa-solid fa-rotate me-1"></i>
+						<span class="text-capitalize">refresh</span>
+					</button>
+
+					<!-- Autoplay -->
+					<div class="form-check form-switch form-check-inline 
+											form-select-sms ms-4 w-auto">
+						<input id="autoPlay"
+									 class="form-check-input" 
+									 type="checkbox"
+									 role="switch" 
+									 ng-model="options.autoPlay"
+									 ng-disabled="game.status!=='stopped'">
+						<label class="form-check-label" for="autoPlay">
+							auto play
+						</label>
+					</div>
+				</div>
+
+				<!-- Audio -->
+				<audio id="audioEated" controls="false" class="d-none m-0 p-0">
+					<source src="./sound/eated.mp3" type="audio/mpeg">
+				</audio>
+				<audio id="audioEnded" controls="false" class="d-none m-0 p-0">
+					<source src="./sound/ended.mp3" type="audio/mpeg">
+				</audio>
+			</div>
+
+			<!-- Options panel -->
+			<div class="col-12 col-xxl-3 mb-5 mt-3 mt-xxl-0">
+				<div class="row justify-content-center justify-content-xxl-start">
+
+					<!-- Form -->
+					<form class="border py-2" name="optionsForm" novalidate>
+
+						<!-- Row -->
+						<div class="row mb-2">
+							<label for="panel-size-x" 
+		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+	  					<span class="text-capitalize">row:</span>
+						</label>
+						<div class="col-12 col-md-7">
+	  					<input id="panel-size-x"
+								 class="form-control form-control-sm"
+								 name="x" 
+								 type="number"
+								 autocomplete="off" 
+								 required
+								 min="10"
+											 max="30"
+								 			 onkeydown="return false"
+								 ng-model="options.size.x"
+											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
+						</div>
+						</div>
+
+						<!-- Col -->
+						<div class="row mb-2">
+							<label for="panel-size-y" 
+		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+	  					<span class="text-capitalize">col:</span>
+						</label>
+						<div class="col-12 col-md-7">
+	  					<input id="panel-size-y"
+								 class="form-control form-control-sm"
+								 name="y" 
+								 type="number"
+								 autocomplete="off" 
+								 required
+								 min="10"
+								 max="40"
+								 onkeydown="return false"
+								 ng-model="options.size.y"
+								 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
+						</div>
+						</div>
+
+						<!-- Stones -->
+						<div class="row mb-2">
+							<label for="snake-stones" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">stones:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<input id="snake-stones"
+											 class="form-control form-control-sm"
+											 name="stones" 
+											 type="number"
+											 autocomplete="off" 
+											 required
+											 min="0"
+											 max="{{game.maxStones}}"
+								 			 onkeydown="return false"
+											 ng-model="options.stones"
+											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
+							</div>
+						</div>
+
+						<!-- Delay -->
+						<div class="row mb-2">
+							<label for="snake-delay" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">delay:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<input id="snake-delay"
+											 class="form-control form-control-sm"
+											 name="delay" 
+											 type="number"
+											 autocomplete="off" 
+											 required
+											 min="10"
+											 max="2000"
+											 onkeydown="return false"
+											 ng-model="options.delay"
+											 ng-disabled="game.status!=='stopped'">
+							</div>
+						</div>
+
+						<!-- Player -->
+						<div class="row mb-2">
+							<label for="snake-player" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">player:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<select id="snake-player"
+												class="form-select"
+												ng-model="options.playerID" 
+												ng-change="methods.refresh()"
+												ng-options="x.id as x.name disable when !x.valid 
+																		for x in options.players"
+												required
+												style="min-width:170px;"
+												ng-disabled="game.status!=='stopped'">
+								</select>
+							</div>
+						</div>
+
+						<!-- Reset Options -->
+						<div class="row mb-1">
+							<label for="reset" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">Reset options:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<button id="reset"
+												class="btn btn-outline-danger w-100 h-100"
+												ng-click="methods.resetOptions()"
+												ng-disabled="game.status!=='stopped'"> Reset!
+								</button>
+								</select>
+							</div>
+						</div>
+						<hr class="my-2">
+
+						<!-- Snake length -->
+						<div class="row mb-2">
+							<label for="snake-length" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">length:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<input id="snake-length"
+											 class="form-control form-control-sm text-end"
+											 name="snakeLength" 
+											 type="number"
+											 ng-model="game.snakeLength"
+											 disabled>
+							</div>
+						</div>
+
+						<!-- Snake steps -->
+						<div class="row mb-2">
+							<label for="snake-steps" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">steps:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<input id="snake-steps"
+											 class="form-control form-control-sm text-end"
+											 name="steps" 
+											 type="number"
+											 ng-model="game.steps"
+											 disabled>
+							</div>
+						</div>
+
+						<!-- Elapsed time -->
+						<div class="row mb-2">
+							<label for="snake-time" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">time:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<input id="snake-time"
+											 class="form-control form-control-sm text-end pe-4"
+											 name="time" 
+											 type="text"
+											 ng-model="game.time"
+											 disabled>
+							</div>
+						</div>
+
+						<!-- Score -->
+						<div class="row mb-1">
+							<label for="snake-score" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">score:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<input id="snake-score"
+											 class="form-control form-control-sm text-end"
+											 name="score" 
+											 type="number"
+											 ng-model="game.score"
+											 disabled>
+							</div>
+						</div>
+						<hr class="my-2">
+
+						<!-- Attempt -->
+						<div class="row mb-2">
+							<label for="snake-attempt" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">attempt:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<div class="input-group">
+									<input id="snake-attempt"
+												class="form-control form-control-sm text-end"
+												name="attempt" 
+												type="number"
+												ng-model="game.attempt"
+												disabled>
+								</div>
+							</div>
+						</div>
+
+						<!-- Peak (top score) -->
+						<div class="row mb-2">
+							<label for="snake-peak" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">peak:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<div class="input-group">
+									<button id="peak-reset"
+													class="btn btn-outline-danger text-capitalize" 
+													type="button"
+													ng-disabled="game.status!=='stopped'"
+													title="Reset peak (top score)"
+													ng-click="methods.resetPeak()">
+										<i class="fa-solid fa-xmark"></i>
+									</button>
+									<input id="snake-peak"
+												class="form-control form-control-sm text-end"
+												name="peak" 
+												type="number"
+												ng-model="game.peak"
+												disabled>
+								</div>
+							</div>
+						</div>
+
+						<!-- Game status -->
+						<div class="row">
+							<label for="snake-status" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">status:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<input id="snake-status"
+										 	 class="form-control form-control-sm text-center"
+										 	 name="status" 
+										 	 type="text"
+										 	 ng-model="game.status"
+										 	 disabled>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="row justify-content-center justify-content-xxl-start mt-5">
+						<p class="fs-3">&copy; 2024-2025</p>
+						<p class="fs-2">class: 13c</p>
+				</div>
+			</div>
+		</div>
