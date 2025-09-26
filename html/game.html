@@ -347,6 +347,22 @@
 							</div>
 						</div>
 
+						<!-- Register top score -->
+						<div class="row mb-1">
+							<label for="register" 
+										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
+								<span class="text-capitalize">Register top score:</span>
+							</label>
+							<div class="col-12 col-md-7">
+								<button id="register"
+												class="btn btn-primary w-100 h-100"
+												ng-click="methods.registerPeak()"
+												ng-disabled="game.status!=='stopped'"> Register!
+								</button>
+								</select>
+							</div>
+						</div>
+
 						<!-- Game status -->
 						<div class="row">
 							<label for="snake-status" 

@@ -37,6 +37,15 @@
             controller: 'gameController',
             templateUrl: './html/game.html'
           })
+				.state('register', {
+					url: '/register',
+					parent: 'root',
+					controller: 'registerController',
+					templateUrl: './html/register.html',
+					params: {
+						score: null
+					}
+				})
 				$urlRouterProvider.otherwise('/');
 		}
 		])
@@ -47,7 +56,8 @@
 			'$timeout',
 			'$interval',
 			'input',
-			function($scope, $timeout, $interval, input) {
+			'$stateParams',
+			function($scope, $timeout, $interval, input, $stateParams) {
 
 
 				// Options (input models)
@@ -395,7 +405,7 @@
 					ended: () => {
 
 						// If going outside the map, keep head
-						if (!helper.snake.head.x) methods.squish();
+						if (!helper.snake.head.x && $scope.options.isHuman) methods.squish();
 					
 						// Clear interval, set satus, and stop the game
 						methods.clearInterval();
@@ -404,7 +414,7 @@
 						$scope.game.startedMoving = false;
 
 						// Check auto play/refresh
-						if ($scope.options.isHuman) {
+						if ($scope.options.isHuman && $scope.options.autoPlay) {
 							$scope.methods.stop();
 							$scope.methods.refresh();
 						} else if ($scope.options.autoPlay) {
@@ -763,6 +773,12 @@
 						localStorage.setItem("snake_game_peak", peak);
 					},
 
+					// Record peak (top score), and attempt
+					registerPeak: () => {
+						console.log($state.options.peak)
+						$state.go("register", {score: $state.options.peak});
+					},
+
 					// Get attempt
 					getAttempt: () => {
 						let attempt = localStorage.getItem("snake_game_attempt");
@@ -806,6 +822,19 @@
 
 				// Initialize
 				methods.init();
+			}
+		])
+
+		// Register controller
+		.controller('registerController', [
+			'$scope',
+			'$stateParams',
+			function($scope, $stateParams) {
+				$scope.data = {
+					name: null,
+					score: null
+				}
+				$scope.data.score = $stateParams.score;
 			}
 		])
 
