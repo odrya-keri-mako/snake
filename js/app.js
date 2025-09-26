@@ -62,7 +62,7 @@
 						{ id: 'astar_e', valid: true, name: 'A* Euklidesz' }
 					],
 					playerID: null,
-					isHuman: false,
+					isHuman: true,
 					isMP: false
 				}
 
@@ -276,7 +276,7 @@
 
 					// Reset
 					reset: () => {
-						if ($scope.options.playerID !== "astar_e") {
+						if ($scope.options.isHuman) {
 							$scope.options.size = {
 								x: 15,
 								y: 25
@@ -403,14 +403,15 @@
 						$scope.game.status = "ended";
 						$scope.game.startedMoving = false;
 
-						// Check autoplay
-						if ($scope.options.autoPlay) {
+						// Check auto play/refresh
+						if ($scope.options.isHuman) {
+							$scope.methods.stop();
+							$scope.methods.refresh();
+						} else if ($scope.options.autoPlay) {
 							$scope.game.countdown = 10;
 							helper.countdownID = $interval(() => {
 								$scope.game.countdown--;
 							}, 1000);
-						} else if ($scope.options.isHuman) {
-							$scope.methods.stop();
 						}
 					},
 
@@ -645,6 +646,7 @@
 						} else {
 							$scope.options.isHuman = false;
 						}
+						$scope.$applyAsync();
 					},
 
 					// Get squished
