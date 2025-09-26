@@ -517,28 +517,8 @@
 						else result = methods.greedyNext(neighbors);
 						return result;
 					},
-
-					// Human player
-					humanNext: () => {
-						let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
-						input.clearBuffer();
-
-						if (!$scope.game.startedMoving && inputs.length === 0) {
-							$scope.game.score = 0;
-							$scope.game.steps = 0;
-							$scope.game.time  = "0.00";
-
-							return
-						} 
-						$scope.game.startedMoving = true;
-
-						let directionMap = {
-							"ArrowUp": "top",
-							"ArrowDown": "bottom",
-							"ArrowLeft": "start",
-							"ArrowRight": "end"
-						};
-
+				
+					humanGetNext: (inputs, snake, directionMap) => {
 						let next;
 						let direction;
 						while (inputs.length !== 0) {
@@ -550,70 +530,77 @@
 							if (mappedDirection == methods.oppositeDirection(helper.direction)) {
 								continue;
 							}
-							next = methods.humanMove(mappedDirection);
+							next = methods.humanMove(mappedDirection, snake);
 							if (!next) continue;
 							if (!next.hasClass("snake")) break;
 						}
-
-						console.log(_inputs, _toRemove)
 
 						$scope.lastInput = directionMap[direction];
 						dropInput(direction);
 
 						if (!next) {
-							return $(methods.humanMove(helper.direction));
+							return $(methods.humanMove(helper.direction, snake));
 						}
 						
 						return $(next);
+					},
 
+					// Human player
+					humanNext: () => {
+						let inputs = input.get(["arrowup", "arrowdown", "arrowleft", "arrowright"]);
+						input.clearBuffer();
+
+						let directionMap = {
+							"arrowup": "top",
+							"arrowdown": "bottom",
+							"arrowleft": "start",
+							"arrowright": "end"
+						};
+
+						if (!$scope.game.startedMoving && inputs.length === 0) {
+							$scope.game.score = 0;
+							$scope.game.steps = 0;
+							$scope.game.time  = "0.00";
+
+							return
+						} 
+						$scope.game.startedMoving = true;
+
+						return methods.humanGetNext(inputs, helper.snake, directionMap)
 					},
 
 					human_mpNext : (neighbors) => {
-						let inputs = input.get(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]);
+						let inputs = input.get(["arrowup", "arrowdown", "arrowleft", "arrowright"]);
+						let inputs2 = input.get(["w", "a", "s", "d"]);
 						input.clearBuffer();
 
 						if (!$scope.game.startedMoving && inputs.length === 0) return
 						$scope.game.startedMoving = true;
 
 						let directionMap = {
-							"ArrowUp": "top",
-							"ArrowDown": "bottom",
-							"ArrowLeft": "start",
-							"ArrowRight": "end"
+							"arrowup": "top",
+							"arrowdown": "bottom",
+							"arrowleft": "start",
+							"arrowright": "end",
+
+							"w": "top",
+							"s": "bottom",
+							"a": "start",
+							"d": "end"
 						};
-
-						let next;
-						let direction;
-						while (inputs.length !== 0) {
-							direction = inputs.pop();
-							let mappedDirection = directionMap[direction];
-
-							if (mappedDirection === helper.direction) continue;
-
-							next = methods.humanMove(mappedDirection, neighbors);
-							if (!next) continue;
-							if (!next.classList.contains("snake")) break;
-						}
-
-						dropInput(direction);
-
-						if (!next) {
-							return $(methods.humanMove(helper.direction, neighbors));
-						}
-						return $(next);
 					},
 
 					// Get next cell based on direction
-					humanMove: (direction) => {
+					humanMove: (direction, snake) => {
 						switch (direction) {
 							case "top":
-								return methods.getCell({x: helper.snake.head.x - 1, y: helper.snake.head.y});
+								return methods.getCell({x: snake.head.x - 1, y: snake.head.y});
 							case "bottom":
-								return methods.getCell({x: helper.snake.head.x + 1, y: helper.snake.head.y});
+								return methods.getCell({x: snake.head.x + 1, y: snake.head.y});
 							case "start":
-								return methods.getCell({x: helper.snake.head.x, y: helper.snake.head.y - 1});
+								return methods.getCell({x: snake.head.x, y: snake.head.y - 1});
 							case "end":
-								return methods.getCell({x: helper.snake.head.x, y: helper.snake.head.y + 1});
+								return methods.getCell({x: snake.head.x, y: snake.head.y + 1});
 						}
 					},
 

@@ -2,15 +2,15 @@ let _inputs = [];
 let _toRemove = [];
 
 window.addEventListener("keydown", (e) => {
-    if (_inputs.includes(e.key) || e.repeat) return;
+    if (_inputs.includes(e.key.toLowerCase()) || e.repeat) return;
     
-    _inputs.push(e.key);
+    _inputs.push(e.key.toLowerCase());
 });
 
 window.addEventListener("keyup", (e) => {
-    if (_toRemove.includes(e.key)) return;
+    if (_toRemove.includes(e.key.toLowerCase())) return;
     
-    _toRemove.push(e.key);
+    _toRemove.push(e.key.toLowerCase());
 });
 
 function getInput(inputsToCheck) {
