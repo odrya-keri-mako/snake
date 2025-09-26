@@ -2,7 +2,7 @@ let _inputs = [];
 let _toRemove = [];
 
 window.addEventListener("keydown", (e) => {
-    if (_inputs.includes(e.key)) return;
+    if (_inputs.includes(e.key) || e.repeat) return;
     
     _inputs.push(e.key);
 });

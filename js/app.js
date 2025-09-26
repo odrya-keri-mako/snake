@@ -554,6 +554,8 @@
 							if (!next.hasClass("snake")) break;
 						}
 
+						console.log(_inputs, _toRemove)
+
 						$scope.lastInput = directionMap[direction];
 						dropInput(direction);
 
