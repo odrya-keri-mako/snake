@@ -392,7 +392,24 @@
 							
 						// Move
 						if (Array.isArray(next)) {
+							if (next[0] != null && (next[0].hasClass("snake") || next[0].hasClass("snake2"))) { 
+								let head = methods.getCell(helper.snake.head);
+							
+								head.addClass(helper.snake.lastInput);
+
+								methods.ended();
+							}
+
 							methods.move(next[0], helper.snake);
+
+							if (next[1] != null && (next[1].hasClass("snake") || next[1].hasClass("snake2"))) { 
+								let head = methods.getCell(helper.snake2.head);
+							
+								head.addClass(helper.snake2.lastInput);
+
+								methods.ended();
+							}
+
 							methods.move(next[1], helper.snake2);
 						
 							return;
