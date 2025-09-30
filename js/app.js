@@ -108,11 +108,19 @@
 					food: { x: null, y: null },
 					snake: {
 						head: { x: null, y: null },
-						body: []
+						body: [],
+						class: "snake",
+						lastInput: null,
+						direction: null,
+						prevDirection: null
 					},
 					snake2 : {
 						head: { x: null, y: null},
-						body: []
+						body: [],
+						class: "snake2",
+						lastInput: null,
+						direction: null,
+						prevDirection: null
 					},
 					time: { start: null, end: null },
 					effectID: null,
@@ -322,9 +330,9 @@
 								$scope.options.isMP 
 									? $(neighbors[2]) 
 									: $(neighbors[Math.floor(Math.random() * neighbors.length)]),
-							direction = methods.direction(neighbor, head);
+							direction = methods.direction(helper.snake, neighbor, head);
 							
-						helper.direction = direction;
+						helper.snake.direction = direction;
 						head.addClass(`snake head ${direction}`);
 						neighbor.addClass('snake');
 						helper.snake.body.push(methods.position(neighbor));
@@ -341,7 +349,7 @@
 								neighbors2 = methods.neighbors(helper.snake2.head, ", .food"),
 								neighbor2 = $(neighbors2[1]),
 								direction2 = "end";
-							helper.direction2 = direction2;
+							helper.snake2.direction = direction2;
 							head2.addClass(`snake2 head ${direction2}`);
 							neighbor2.addClass('snake2');
 							helper.snake2.body.push(methods.position(neighbor2));
@@ -383,15 +391,21 @@
 							} else  next = food;
 							
 						// Move
-						if (next != null)
-						if (next.hasClass("snake")) { 
+						if (Array.isArray(next)) {
+							methods.move(next[0], helper.snake);
+							methods.move(next[1], helper.snake2);
+						
+							return;
+						}
+
+						if (next != null && next.hasClass("snake")) { 
 							let head = methods.getCell(helper.snake.head);
 							
 							head.addClass($scope.lastInput);
 
 							methods.ended();
 						}
-						methods.move(next);
+						methods.move(next, helper.snake);
 					},
 
 					// Upgrade score, steps, and time
@@ -431,24 +445,24 @@
 					},
 
 					// Move
-					move: (next) => {
+					move: (next, snake) => {
 						if ($scope.options.isHuman && !$scope.game.startedMoving) return;
 
 						// Get head, and direction
-						let head = methods.getCell(helper.snake.head),
-							direction = methods.direction(head, next);
+						let head = methods.getCell(snake.head),
+							direction = methods.direction(snake, head, next);
 
 						// 
 						head.removeClass('head start end top bottom');
-						next.addClass(`snake head ${direction}`);
-						helper.snake.body.unshift(helper.snake.head);
-						helper.snake.head = methods.position(next);
+						next.addClass(`${snake.class} head ${direction}`);
+						snake.body.unshift(snake.head);
+						snake.head = methods.position(next);
 
 						//
 						if (!next.hasClass("food")) {
-							let tail = methods.getCell(helper.snake.body[helper.snake.body.length - 1]);
-							tail.removeClass("snake");
-							helper.snake.body.splice(-1, 1);
+							let tail = methods.getCell(snake.body[snake.body.length - 1]);
+							tail.removeClass("snake snake2");
+							snake.body.splice(-1, 1);
 						} else {
 							helper.audioEated.play();
 							$scope.game.score += 100;
@@ -535,9 +549,9 @@
 							direction = inputs.pop();
 							let mappedDirection = directionMap[direction];
 
-							if (mappedDirection === helper.direction) continue;
+							if (mappedDirection === snake.direction) continue;
 
-							if (mappedDirection == methods.oppositeDirection(helper.direction)) {
+							if (mappedDirection == methods.oppositeDirection(snake.direction)) {
 								continue;
 							}
 							next = methods.humanMove(mappedDirection, snake);
@@ -545,11 +559,11 @@
 							if (!next.hasClass("snake")) break;
 						}
 
-						$scope.lastInput = directionMap[direction];
+						snake.lastInput = directionMap[direction];
 						dropInput(direction);
 
 						if (!next) {
-							return $(methods.humanMove(helper.direction, snake));
+							return $(methods.humanMove(snake.direction, snake));
 						}
 						
 						return $(next);
@@ -584,7 +598,7 @@
 						let inputs2 = input.get(["w", "a", "s", "d"]);
 						input.clearBuffer();
 
-						if (!$scope.game.startedMoving && inputs.length === 0) return
+						if (!$scope.game.startedMoving && (inputs.length === 0 || inputs2.length === 0)) return
 						$scope.game.startedMoving = true;
 
 						let directionMap = {
@@ -592,12 +606,19 @@
 							"arrowdown": "bottom",
 							"arrowleft": "start",
 							"arrowright": "end",
+						}
 
+						let directionMap2 = {
 							"w": "top",
 							"s": "bottom",
 							"a": "start",
 							"d": "end"
 						};
+
+						let next = methods.humanGetNext(inputs, helper.snake, directionMap);
+						let next2 = methods.humanGetNext(inputs2, helper.snake2, directionMap2);
+
+						return [next, next2]
 					},
 
 					// Get next cell based on direction
@@ -709,7 +730,7 @@
 					},
 
 					// Get direction
-					direction: (from, to) => {
+					direction: (snake, from, to) => {
 						let direction;
 						if (parseInt(from.attr("row")) === parseInt(to.attr("row"))) {
 							if (parseInt(from.attr("col")) < parseInt(to.attr("col"))) {
@@ -723,8 +744,8 @@
 							direction = "top";
 						}
 
-						helper.prevDirection = helper.direction;
-						helper.direction = direction;
+						snake.prevDirection = snake.direction;
+						snake.direction = direction;
 
 						return direction;
 					},
