@@ -65,7 +65,7 @@
 												  		  || options.playerID == 'human'
 																|| options.playerID == 'human_mp'">
 						<i class="fa-solid fa-pause me-1"></i>
-						<span class="text-capitalize">pause</span>
+						<span class="text-capitalize">megállít</span>
 					</button>
 
 					<!-- Stop -->
@@ -83,7 +83,7 @@
 									ng-click="methods.refresh()"
 									ng-disabled="game.status!=='stopped'">	
 						<i class="fa-solid fa-rotate me-1"></i>
-						<span class="text-capitalize">refresh</span>
+						<span class="text-capitalize">frissítés</span>
 					</button>
 
 					<!-- Autoplay -->
@@ -96,7 +96,7 @@
 									 ng-model="options.autoPlay"
 									 ng-disabled="game.status!=='stopped'">
 						<label class="form-check-label" for="autoPlay">
-							auto {{options.isHuman ? "refresh" : "play"}}
+							autómatikus {{options.isHuman ? "frissítés" : "játék"}}
 						</label>
 					</div>
 				</div>
@@ -121,7 +121,7 @@
 						<div class="row mb-2">
 							<label for="panel-size-x" 
 		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-	  					<span class="text-capitalize">row:</span>
+	  					<span class="text-capitalize">sor:</span>
 						</label>
 						<div class="col-12 col-md-7">
 	  					<input id="panel-size-x"
@@ -142,7 +142,7 @@
 						<div class="row mb-2">
 							<label for="panel-size-y" 
 		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-	  					<span class="text-capitalize">col:</span>
+	  					<span class="text-capitalize">oszlop:</span>
 						</label>
 						<div class="col-12 col-md-7">
 	  					<input id="panel-size-y"
@@ -163,7 +163,7 @@
 						<div class="row mb-2">
 							<label for="snake-stones" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">stones:</span>
+								<span class="text-capitalize">kövek:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<input id="snake-stones"
@@ -184,7 +184,7 @@
 						<div class="row mb-2">
 							<label for="snake-delay" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">delay:</span>
+								<span class="text-capitalize">késleltetés:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<input id="snake-delay"
@@ -205,7 +205,7 @@
 						<div class="row mb-2">
 							<label for="snake-player" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">player:</span>
+								<span class="text-capitalize">játékos:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<select id="snake-player"
@@ -225,13 +225,13 @@
 						<div class="row mb-1">
 							<label for="reset" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">Reset options:</span>
+								<span class="text-capitalize">Beállítások visszaállítása:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<button id="reset"
 												class="btn btn-outline-danger w-100 h-100"
 												ng-click="methods.resetOptions()"
-												ng-disabled="game.status!=='stopped'"> Reset!
+												ng-disabled="game.status!=='stopped'"> Vissza!
 								</button>
 								</select>
 							</div>
@@ -242,7 +242,7 @@
 						<div class="row mb-2">
 							<label for="snake-length" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">length:</span>
+								<span class="text-capitalize">hossz:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<input id="snake-length"
@@ -258,7 +258,7 @@
 						<div class="row mb-2">
 							<label for="snake-steps" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">steps:</span>
+								<span class="text-capitalize">lépések:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<input id="snake-steps"
@@ -274,7 +274,7 @@
 						<div class="row mb-2">
 							<label for="snake-time" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">time:</span>
+								<span class="text-capitalize">idő:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<input id="snake-time"
@@ -290,7 +290,7 @@
 						<div class="row mb-1">
 							<label for="snake-score" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">score:</span>
+								<span class="text-capitalize">pontok:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<input id="snake-score"
@@ -307,7 +307,7 @@
 						<div class="row mb-2">
 							<label for="snake-attempt" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">attempt:</span>
+								<span class="text-capitalize">próba:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<div class="input-group">
@@ -325,7 +325,7 @@
 						<div class="row mb-2">
 							<label for="snake-peak" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">peak:</span>
+								<span class="text-capitalize">legtöbb pont:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<div class="input-group">
@@ -351,13 +351,13 @@
 						<div class="row mb-1">
 							<label for="register" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">Register top score:</span>
+								<span class="text-capitalize">Pontok regisztrálása:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<button id="register"
 												class="btn btn-primary w-100 h-100"
 												ng-click="methods.registerPeak()"
-												ng-disabled="game.status!=='stopped'"> Register!
+												ng-disabled="game.status!=='stopped'"> Regisztrálás!
 								</button>
 								</select>
 							</div>
@@ -367,13 +367,13 @@
 						<div class="row mb-1">
 							<label for="register" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">Top List:</span>
+								<span class="text-capitalize">Top Lista:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<button id="register"
 												class="btn btn-primary w-100 h-100"
 												ng-click="methods.viewTopList()"
-												ng-disabled="game.status!=='stopped'"> View!
+												ng-disabled="game.status!=='stopped'"> Megnéz
 								</button>
 								</select>
 							</div>
@@ -383,7 +383,7 @@
 						<div class="row">
 							<label for="snake-status" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">status:</span>
+								<span class="text-capitalize">állapot:</span>
 							</label>
 							<div class="col-12 col-md-7">
 								<input id="snake-status"

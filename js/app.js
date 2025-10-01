@@ -74,8 +74,8 @@
 					delay: 100,
 					autoPlay: false,
 					players: [
-						{ id: 'human', valid: true, name: 'Human' },
-						{ id: 'human_mp', valid: true, name: '2 player mode'},
+						{ id: 'human', valid: true, name: 'Ember' },
+						{ id: 'human_mp', valid: true, name: '2 játékos'},
 						{ id: 'astar_e', valid: true, name: 'A* Euklidesz' }
 					],
 					playerID: null,
@@ -887,6 +887,7 @@
 					.then(res => {
 						if (!res.error) {
 							alert("Sikeres adatfelvétel!");
+							$state.go("topList");
 						} else {
 							alert("Hiba, kérlek próbáld újra!")
 						}
