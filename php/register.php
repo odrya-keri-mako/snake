@@ -1,5 +1,5 @@
 <?php
-require_once("../common/php/envionment.php");
+require_once("../common/php/environment.php");
 
 $args = Util::getArgs();
 
