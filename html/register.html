@@ -1,44 +1,56 @@
 <div class="container mt-5">
-    <h2 class="mb-4">Regisztráció</h2>
-    
-    <form name="registrationForm" 
-					ng-submit="submitForm()"
-					class="form " 
-					novalidate>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Regisztráció</h2>
 
-      <!-- Név -->
-      <div class="form-group" 
-					 ng-class="{'has-error': registrationForm.name.$touched && registrationForm.name.$invalid}">
-        <label for="name">Teljes név</label>
-        <input type="text" 
-							 class="form-control" 
-							 id="name" 
-							 name="name" 
-							 ng-model="data.name" 
-							 required>
-        <div class="text-danger" 
-						 ng-show="registrationForm.name.$touched && registrationForm.name.$invalid">
-          A név megadása kötelező.
+          <form name="registrationForm" 
+                ng-submit="submitForm()" 
+                class="needs-validation" 
+                novalidate>
+
+            <!-- Teljes név -->
+            <div class="mb-3" 
+                 ng-class="{'has-error': registrationForm.name.$touched && registrationForm.name.$invalid}">
+              <label for="name" class="form-label">Teljes név</label>
+              <input type="text" 
+                     class="form-control" 
+                     id="name" 
+                     name="name" 
+                     ng-model="data.name" 
+                     required>
+              <div class="invalid-feedback d-block" 
+                   ng-show="registrationForm.name.$touched && registrationForm.name.$invalid">
+                A név megadása kötelező.
+              </div>
+            </div>
+
+            <!-- Pontok -->
+            <div class="mb-3">
+              <label for="score" class="form-label">Pontok</label>
+              <input type="text" 
+                     class="form-control-plaintext text-muted" 
+                     id="score" 
+                     name="score" 
+                     ng-model="data.score" 
+                     required
+                     disabled>
+            </div>
+
+            <!-- Regisztráció gomb -->
+            <div class="d-grid">
+              <button type="submit" 
+                      class="btn btn-primary" 
+                      ng-disabled="registrationForm.$invalid"
+                      ng-click="register()">
+                Regisztráció
+              </button>
+            </div>
+
+          </form>
         </div>
       </div>
-
-      <!-- Pontok, lacikám -->
-      <div class="form-group" 
-			     ng-class="{'has-error': registrationForm.email.$touched && registrationForm.email.$invalid}">
-        <label for="score">Pontok:</label>
-        <input type="text" 
-							 class="form-control" 
-							 id="score" 
-							 name="score" 
-							 ng-model="data.score"
-							 disabled>
-      </div>
-
-      <!-- Gomb -->
-      <button type="submit" 
-							class="btn btn-primary mt-3" 
-							ng-disabled="registrationForm.$invalid"
-							ng-click="register()">
-        Regisztráció
-      </button>
-    </form>
+    </div>
+  </div>
+</div>

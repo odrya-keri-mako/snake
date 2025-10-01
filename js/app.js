@@ -863,7 +863,10 @@
 
 				$scope.register = function() {
 					fetch("../php/register.php",
-								{body: JSON.stringify($scope.data)}
+						{
+							body: JSON.stringify($scope.data),
+							method: "POST"
+						}
 					)
 					.then(res => res.json())
 					.then(res => {
