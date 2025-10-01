@@ -861,6 +861,8 @@
 					score: null
 				}
 				$scope.data.score = $stateParams.score;
+				$scope.topList;
+
 
 				$scope.register = function() {
 					fetch("./php/register.php",
@@ -871,13 +873,26 @@
 					)
 					.then(res => res.json())
 					.then(res => {
-						console.log(res.error);
+						if (!res.error) {
+							alert("Sikeres adatfelvétel!");
+						} else {
+							alert("Hiba, kérlek próbáld újra!")
+						}
 					})
-					.catch(e => console.error(e.error));
+					.catch(e => alert("Hiba, kérlek próbáld újra!"));
 				}
 
 				$scope.return = function() {
 					$state.go('game');
+				}
+
+				$scope.getTop = function() {
+					fetch("./php/getLeaderboard.php")
+					.then(res => {
+						$scope.topList = res.data;
+						$scope.$applyAsync();
+					})
+					.catch(e => alert("Hiba, kérlek próbáld újra!"));
 				}
 			}
 		])

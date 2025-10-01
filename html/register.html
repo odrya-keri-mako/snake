@@ -60,6 +60,18 @@
           </form>
         </div>
       </div>
+
+      <!-- Top Lista -->
+      <div class="card shadow-sm mt-4">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Top Lista</h2>
+          <ul class="list-group">
+            <li class="list-group-item"
+                ng-repeat="x in topList">{{x.name}} - {{x.score}} pont - {{x.timestamp}}</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
