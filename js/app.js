@@ -854,7 +854,8 @@
 		.controller('registerController', [
 			'$scope',
 			'$stateParams',
-			function($scope, $stateParams) {
+			'$state',
+			function($scope, $stateParams,$state) {
 				$scope.data = {
 					name: null,
 					score: null
@@ -873,6 +874,10 @@
 						console.log(res.error);
 					})
 					.catch(e => console.error(e.error));
+				}
+
+				$scope.return = function() {
+					$state.go('game');
 				}
 			}
 		])
