@@ -904,14 +904,14 @@
 
 		.controller('topListController', [
 			'$scope',
-			function($scope) {
+			'$state',
+			function($scope,$state) {
 				$scope.topList;
 
 				$scope.getTop = function() {
 					fetch("./php/getLeaderboard.php")
 					.then(res => res.json())
 					.then(res => {
-						console.log(res)
 						$scope.topList = res.data;
 						$scope.$applyAsync();
 					})
