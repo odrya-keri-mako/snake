@@ -396,7 +396,6 @@
 								let head = methods.getCell(helper.snake.head);
 							
 								head.addClass(helper.snake.lastInput);
-
 								methods.ended();
 							}
 
@@ -418,7 +417,7 @@
 						if (next != null && next.hasClass("snake")) { 
 							let head = methods.getCell(helper.snake.head);
 							
-							head.addClass($scope.lastInput);
+							head.addClass(helper.snake.lastInput);
 
 							methods.ended();
 						}
@@ -576,7 +575,7 @@
 							if (!next.hasClass("snake")) break;
 						}
 
-						snake.lastInput = directionMap[direction];
+						if (direction != null) snake.lastInput = directionMap[direction];
 						dropInput(direction);
 
 						if (!next) {
@@ -690,7 +689,7 @@
 					squish: () => {
 						let firstBody = methods.getCell(helper.snake.body[0])[0];
 						firstBody.classList.add("head");
-						firstBody.classList.add(helper.prevDirection);
+						firstBody.classList.add(helper.snake.prevDirection);
 					},
 						
 					// Set food
