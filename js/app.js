@@ -45,6 +45,13 @@
 					params: {
 						score: null
 					}
+				}
+			)
+				.state('topList', {
+					url: '/topList',
+					parent: 'root',
+					controller: 'topListController',
+					templateUrl: './html/topList.html'
 				})
 				$urlRouterProvider.otherwise('/');
 		}
@@ -217,6 +224,11 @@
 					// Record peak (top score), and attempt
 					registerPeak: () => {
 						$state.go("register", {score: $scope.game.peak});
+					},
+
+					//View Top list
+					viewTopList: () => {
+						$state.go('topList');
 					}
 				};
 
@@ -861,7 +873,7 @@
 					score: null
 				}
 				$scope.data.score = $stateParams.score;
-				$scope.topList;
+				
 
 
 				$scope.register = function() {
@@ -886,6 +898,15 @@
 					$state.go('game');
 				}
 
+				
+			}
+		])
+
+		.controller('topListController', [
+			'$scope',
+			function($scope) {
+				$scope.topList;
+
 				$scope.getTop = function() {
 					fetch("./php/getLeaderboard.php")
 					.then(res => res.json())
@@ -896,6 +917,11 @@
 					})
 					.catch(e => alert("Hiba, kérlek próbáld újra!"));
 				}
+				
+				$scope.return = function() {
+					$state.go('game');
+				}
+
 				$scope.getTop();
 			}
 		])

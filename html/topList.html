@@ -1,0 +1,34 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm mt-4">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Top Lista</h2>
+          <table class="table table-striped table-borderless mb-0">
+            <thead>
+              <tr>
+                <th>Név</th>
+                <th>Pontszám</th>
+                <th>Dátum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="x in topList">
+                <td>{{x.name}}</td>
+                <td>{{x.score}}</td>
+                <td>{{x.timestamp}}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <!-- Vissza gomb -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-danger" ng-click="return()">
+              Vissza
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
