@@ -56,8 +56,8 @@
 			'$timeout',
 			'$interval',
 			'input',
-			'$stateParams',
-			function($scope, $timeout, $interval, input, $stateParams) {
+			'$state',
+			function($scope, $timeout, $interval, input, $state) {
 
 
 				// Options (input models)
@@ -212,6 +212,11 @@
 							$scope.options = structuredClone($scope.baseOptions);
 
 						}
+					},
+
+					// Record peak (top score), and attempt
+					registerPeak: () => {
+						$state.go("register", {score: $scope.game.peak});
 					}
 				};
 
@@ -799,12 +804,6 @@
 						localStorage.setItem("snake_game_peak", peak);
 					},
 
-					// Record peak (top score), and attempt
-					registerPeak: () => {
-						console.log($state.options.peak)
-						$state.go("register", {score: $state.options.peak});
-					},
-
 					// Get attempt
 					getAttempt: () => {
 						let attempt = localStorage.getItem("snake_game_attempt");
@@ -861,6 +860,17 @@
 					score: null
 				}
 				$scope.data.score = $stateParams.score;
+
+				$scope.register = function() {
+					fetch("../php/register.php",
+								{body: JSON.stringify($scope.data)}
+					)
+					.then(res => res.json())
+					.then(res => {
+						console.log(res);
+					})
+					.catch(e => console.error(e));
+				}
 			}
 		])
 
