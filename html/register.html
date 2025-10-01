@@ -65,10 +65,22 @@
       <div class="card shadow-sm mt-4">
         <div class="card-body">
           <h2 class="card-title text-center mb-4">Top Lista</h2>
-          <ul class="list-group">
-            <li class="list-group-item"
-                ng-repeat="x in topList">{{x.name}} - {{x.score}} pont - {{x.timestamp}}</li>
-          </ul>
+          <table class="table table-striped table-borderless mb-0">
+            <thead>
+              <tr>
+                <th>Név</th>
+                <th>Pontszám</th>
+                <th>Dátum</th>
+              </tr>
+            </thead>  
+            <tbody>
+              <tr ng-repeat="x in topList">
+                <td>{{x.name}}</td>
+                <td>{{x.score}}</td>
+                <td>{{x.timestamp}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
