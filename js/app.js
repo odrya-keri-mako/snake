@@ -862,7 +862,7 @@
 				$scope.data.score = $stateParams.score;
 
 				$scope.register = function() {
-					fetch("../php/register.php",
+					fetch("./php/register.php",
 						{
 							body: JSON.stringify($scope.data),
 							method: "POST"
@@ -870,9 +870,9 @@
 					)
 					.then(res => res.json())
 					.then(res => {
-						console.log(res);
+						console.log(res.error);
 					})
-					.catch(e => console.error(e));
+					.catch(e => console.error(e.error));
 				}
 			}
 		])
