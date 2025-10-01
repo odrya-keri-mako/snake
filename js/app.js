@@ -888,12 +888,15 @@
 
 				$scope.getTop = function() {
 					fetch("./php/getLeaderboard.php")
+					.then(res => res.json())
 					.then(res => {
+						console.log(res)
 						$scope.topList = res.data;
 						$scope.$applyAsync();
 					})
 					.catch(e => alert("Hiba, kérlek próbáld újra!"));
 				}
+				$scope.getTop();
 			}
 		])
 
