@@ -118,28 +118,29 @@
 					<form class="border py-2" name="optionsForm" novalidate>
 
 						<!-- Row -->
-						<div class="row mb-2">
+						<div class="row mb-2" ng-if="options.playerID === 'astar_e'">
 							<label for="panel-size-x" 
 		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 	  					<span class="text-capitalize">sor:</span>
 						</label>
 						<div class="col-12 col-md-7">
 	  					<input id="panel-size-x"
-								 class="form-control form-control-sm"
-								 name="x" 
-								 type="number"
-								 autocomplete="off" 
-								 required
-								 min="10"
-											 max="30"
-								 			 onkeydown="return false"
-								 ng-model="options.size.x"
-											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
+								class="form-control form-control-sm"
+								name="x" 
+								type="number"
+								autocomplete="off" 
+								required
+								min="10"
+								max="30"
+								onkeydown="return false"
+								ng-model="options.size.x"
+								ng-disabled="game.status !== 'stopped'"
+						>
 						</div>
 						</div>
 
 						<!-- Col -->
-						<div class="row mb-2">
+						<div class="row mb-2" ng-if="options.playerID === 'astar_e'">
 							<label for="panel-size-y" 
 		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 	  					<span class="text-capitalize">oszlop:</span>
@@ -155,12 +156,12 @@
 								 max="40"
 								 onkeydown="return false"
 								 ng-model="options.size.y"
-								 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
+								 ng-disabled="game.status !== 'stopped'">
 						</div>
 						</div>
 
 						<!-- Stones -->
-						<div class="row mb-2">
+						<div class="row mb-2" ng-if="options.playerID === 'astar_e'">
 							<label for="snake-stones" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">kövek:</span>
@@ -176,7 +177,7 @@
 											 max="{{game.maxStones}}"
 								 			 onkeydown="return false"
 											 ng-model="options.stones"
-											 ng-disabled="game.status !== 'stopped' || options.playerID === 'human' || options.playerID === 'human_mp'">
+											 ng-disabled="game.status !== 'stopped'">
 							</div>
 						</div>
 
@@ -237,10 +238,10 @@
 								</select>
 							</div>
 						</div>
-						<hr class="my-2">
+						<hr class="my-2" ng-if="options.playerID !== 'human_mp'">
 
 						<!-- Snake length -->
-						<div class="row mb-2">
+						<div class="row mb-2" ng-if="options.playerID !== 'human_mp'">
 							<label for="snake-length" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">hossz:</span>
@@ -255,24 +256,8 @@
 							</div>
 						</div>
 
-						<!-- Snake steps -->
-						<div class="row mb-2">
-							<label for="snake-steps" 
-										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">lépések:</span>
-							</label>
-							<div class="col-12 col-md-7">
-								<input id="snake-steps"
-											 class="form-control form-control-sm text-end"
-											 name="steps" 
-											 type="number"
-											 ng-model="game.steps"
-											 disabled>
-							</div>
-						</div>
-
 						<!-- Elapsed time -->
-						<div class="row mb-2">
+						<div class="row mb-2" ng-if="options.playerID !== 'human_mp'">
 							<label for="snake-time" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">idő:</span>
@@ -288,7 +273,7 @@
 						</div>
 
 						<!-- Score -->
-						<div class="row mb-1">
+						<div class="row mb-1" ng-if="options.playerID !== 'human_mp'">
 							<label for="snake-score" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">pontok:</span>
@@ -349,7 +334,7 @@
 						</div>
 
 						<!-- Register top score -->
-						<div class="row mb-1">
+						<div class="row mb-1" ng-if="options.playerID === 'human'">
 							<label for="register" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">Pontok regisztrálása:</span>

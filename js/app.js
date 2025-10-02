@@ -191,7 +191,7 @@
 					// Stop
 					stop: () => {
 						methods.clearInterval();
-						if ($scope.game.status === "ended")
+						if ($scope.game.status === "ended" && helper.isHuman && !helper.isMP)
 							$scope.game.peak = Math.max($scope.game.peak, $scope.game.score);
 						$scope.game.status = "stopped";
 						methods.reset();
@@ -292,7 +292,7 @@
 							if (!angular.equals(newValue, oldValue)) {
 								if (newValue === 0) {
 									$interval.cancel(helper.countdownID);
-									$scope.game.peak = Math.max($scope.game.peak, $scope.game.score);
+									if (helper.isHuman && !helper.isMP) $scope.game.peak = Math.max($scope.game.peak, $scope.game.score);
 									methods.reset();
 									$scope.game.countdown = null;
 									helper.countdownID = null;
@@ -467,7 +467,7 @@
 
 						// If going outside the map, keep head
 						if (!helper.snake.head.x && $scope.options.isHuman) methods.squish(helper.snake);
-						if (!helper.snake2.head.x && $scope.options.isHuman) methods.squish(helper.snake2);
+						if (!helper.snake2.head.x && $scope.options.isMP) methods.squish(helper.snake2);
 						
 						// Clear interval, set satus, and stop the game
 						methods.clearInterval();
