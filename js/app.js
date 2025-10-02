@@ -21,40 +21,40 @@
 		.config([
 			'$stateProvider',
 			'$urlRouterProvider',
-			function($stateProvider, $urlRouterProvider) {
+			function ($stateProvider, $urlRouterProvider) {
 				$stateProvider
-				.state('root', {
-					abstract: true,
-					views: {
-						'@': {
-							templateUrl: './html/root.html'
+					.state('root', {
+						abstract: true,
+						views: {
+							'@': {
+								templateUrl: './html/root.html'
+							}
+						}
+					})
+					.state('game', {
+						url: '/',
+						parent: 'root',
+						controller: 'gameController',
+						templateUrl: './html/game.html'
+					})
+					.state('register', {
+						url: '/register',
+						parent: 'root',
+						controller: 'registerController',
+						templateUrl: './html/register.html',
+						params: {
+							score: null
 						}
 					}
-				})
-				.state('game', {
-            url: '/',
-            parent: 'root',
-            controller: 'gameController',
-            templateUrl: './html/game.html'
-          })
-				.state('register', {
-					url: '/register',
-					parent: 'root',
-					controller: 'registerController',
-					templateUrl: './html/register.html',
-					params: {
-						score: null
-					}
-				}
-			)
-				.state('topList', {
-					url: '/topList',
-					parent: 'root',
-					controller: 'topListController',
-					templateUrl: './html/topList.html'
-				})
+					)
+					.state('topList', {
+						url: '/topList',
+						parent: 'root',
+						controller: 'topListController',
+						templateUrl: './html/topList.html'
+					})
 				$urlRouterProvider.otherwise('/');
-		}
+			}
 		])
 
 		// Game controller
@@ -64,7 +64,7 @@
 			'$interval',
 			'input',
 			'$state',
-			function($scope, $timeout, $interval, input, $state) {
+			function ($scope, $timeout, $interval, input, $state) {
 
 
 				// Options (input models)
@@ -75,7 +75,7 @@
 					autoPlay: false,
 					players: [
 						{ id: 'human', valid: true, name: 'Ember' },
-						{ id: 'human_mp', valid: true, name: '2 játékos'},
+						{ id: 'human_mp', valid: true, name: '2 játékos' },
 						{ id: 'astar_e', valid: true, name: 'A* Euklidesz' }
 					],
 					playerID: null,
@@ -88,9 +88,9 @@
 				// if (index !== -1) 
 				// 	$scope.options.playerID = $scope.options.players[index].id;
 				$scope.options.playerID = "human";
-				
+
 				$scope.baseOptions = structuredClone($scope.options);
-				
+
 				// Game properties
 				$scope.game = {
 					status: "stopped",
@@ -121,8 +121,8 @@
 						direction: null,
 						prevDirection: null
 					},
-					snake2 : {
-						head: { x: null, y: null},
+					snake2: {
+						head: { x: null, y: null },
 						body: [],
 						class: "snake2",
 						lastInput: null,
@@ -212,7 +212,7 @@
 							localStorage.removeItem("snake_game_peak");
 						}
 					},
-					
+
 					// Reset options
 					resetOptions: () => {
 						if (window.confirm("Do you really want to reset?")) {
@@ -223,7 +223,7 @@
 
 					// Record peak (top score), and attempt
 					registerPeak: () => {
-						$state.go("register", {score: $scope.game.peak});
+						$state.go("register", { score: $scope.game.peak });
 					},
 
 					//View Top list
@@ -321,13 +321,6 @@
 
 						$scope.game.startedMoving = false;
 
-						// Remove entries from cells
-						helper.body.find('td')
-							.removeClass('snake snake2 head food stone start end top bottom');
-						$scope.game.snakeLength = 2;
-						$scope.game.countdown = null;
-						helper.snake.body = [];
-
 						// If multiplayer, set snake to mp position
 						// If not, random orientation in base position
 						if ($scope.options.isMP) {
@@ -342,40 +335,49 @@
 							};
 						}
 
-						// Random or set orientation based on if it's MP
-						let head = methods.getCell(helper.snake.head),
-							neighbors = methods.neighbors(helper.snake.head, ", .food"),
-							neighbor = 
-								$scope.options.isMP 
-									? $(neighbors[2]) 
-									: $(neighbors[Math.floor(Math.random() * neighbors.length)]),
-							direction = methods.direction(helper.snake, neighbor, head);
-							
-						helper.snake.direction = direction;
-						head.addClass(`snake head ${direction}`);
-						neighbor.addClass('snake');
-						helper.snake.body.push(methods.position(neighbor));
+						$timeout(function () {
+							// Remove entries from cells
+							helper.body.find('td')
+								.removeClass('snake snake2 head food stone start end top bottom');
+							$scope.game.snakeLength = 2;
+							$scope.game.countdown = null;
+							helper.snake.body = [];
 
-						// If multiplayer, set second snake, set first to viable position
-						if ($scope.options.isMP) {
-							helper.snake2.body = [];
-							helper.snake2.head = {
-								x: 5,
-								y: 2
-							};
-							
-							let head2 = methods.getCell(helper.snake2.head),
-								neighbors2 = methods.neighbors(helper.snake2.head, ", .food"),
-								neighbor2 = $(neighbors2[1]),
-								direction2 = "end";
-							helper.snake2.direction = direction2;
-							head2.addClass(`snake2 head ${direction2}`);
-							neighbor2.addClass('snake2');
-							helper.snake2.body.push(methods.position(neighbor2));
-						}
+							// Random or set orientation based on if it's MP
+							let head = methods.getCell(helper.snake.head),
+								neighbors = methods.neighbors(helper.snake.head, ", .food"),
+								neighbor =
+									$scope.options.isMP
+										? $(neighbors[2])
+										: $(neighbors[Math.floor(Math.random() * neighbors.length)]),
+								direction = methods.direction(helper.snake, neighbor, head);
 
-						methods.setStones();
-						methods.setFood();
+							helper.snake.direction = direction;
+							head.addClass(`snake head ${direction}`);
+							neighbor.addClass('snake');
+							helper.snake.body.push(methods.position(neighbor));
+
+							// If multiplayer, set second snake, set first to viable position
+							if ($scope.options.isMP) {
+								helper.snake2.body = [];
+								helper.snake2.head = {
+									x: 5,
+									y: 2
+								};
+
+								let head2 = methods.getCell(helper.snake2.head),
+									neighbors2 = methods.neighbors(helper.snake2.head, ", .food"),
+									neighbor2 = $(neighbors2[1]),
+									direction2 = "end";
+								helper.snake2.direction = direction2;
+								head2.addClass(`snake2 head ${direction2}`);
+								neighbor2.addClass('snake2');
+								helper.snake2.body.push(methods.position(neighbor2));
+							}
+
+							methods.setStones();
+							methods.setFood();
+						});
 					},
 
 					// Play
@@ -389,21 +391,21 @@
 
 						if (!neighbors.length ||
 							methods.isInfinite()) {
-								
-								// Game ended
-								methods.ended();
-								return;
-							}
+
+							// Game ended
+							methods.ended();
+							return;
+						}
 
 						if ($scope.options.isMP) {
 							let neighbors2 = methods.neighbors(helper.snake2.head);
 							if (!neighbors2.length ||
-									methods.isInfinite()) {
-										
-										// Game ended
-										methods.ended();
-										return;
-									}
+								methods.isInfinite()) {
+
+								// Game ended
+								methods.ended();
+								return;
+							}
 						}
 
 						// Check that one of the neighbors is food, 
@@ -415,27 +417,27 @@
 						}
 						else if (!food.length) {
 							if (neighbors.length > 1)
-								
+
 								// Call player algorithm
 								next = methods[`${$scope.options.playerID}Next`](neighbors);
-								else next = neighbors;
-							} else  next = food;
-							
+							else next = neighbors;
+						} else next = food;
+
 						// Move
 						if (Array.isArray(next)) {
 							let func = (next, snake, snake2) => {
-								if (next[0] != null && (next[0].hasClass("snake") || next[0].hasClass("snake2"))) { 
+								if (next[0] != null && (next[0].hasClass("snake") || next[0].hasClass("snake2"))) {
 									let head = methods.getCell(snake.head);
-							
+
 									head.addClass(snake.lastInput);
 									methods.ended();
 								}
 
 								methods.move(next[0], snake);
 
-								if (next[1] != null && (next[1].hasClass("snake") || next[1].hasClass("snake2"))) { 
+								if (next[1] != null && (next[1].hasClass("snake") || next[1].hasClass("snake2"))) {
 									let head = methods.getCell(snake2.head);
-							
+
 									head.addClass(snake2.lastInput);
 
 									methods.ended();
@@ -443,7 +445,7 @@
 
 								methods.move(next[1], snake2);
 							}
-						
+
 							if (Math.random() > 0.5)
 								func(next, helper.snake, helper.snake2);
 							else
@@ -452,9 +454,9 @@
 							return;
 						}
 
-						if (next != null && next.hasClass("snake")) { 
+						if (next != null && next.hasClass("snake")) {
 							let head = methods.getCell(helper.snake.head);
-							
+
 							head.addClass(helper.snake.lastInput);
 
 							methods.ended();
@@ -475,7 +477,7 @@
 						// If going outside the map, keep head
 						if (!helper.snake.head.x && $scope.options.isHuman) methods.squish(helper.snake);
 						if (!helper.snake2.head.x && $scope.options.isMP) methods.squish(helper.snake2);
-						
+
 						// Clear interval, set satus, and stop the game
 						methods.clearInterval();
 						helper.audioEnded.play();
@@ -540,9 +542,9 @@
 									$scope.game.score += 200;
 									break;
 								default:
-										break;
-								}
-							
+									break;
+							}
+
 							$scope.game.snakeLength++;
 							next.removeClass("food");
 							methods.setFood();
@@ -618,7 +620,7 @@
 						else result = methods.greedyNext(neighbors);
 						return result;
 					},
-				
+
 					humanGetNext: (inputs, snake, directionMap) => {
 						let next;
 						let direction;
@@ -642,7 +644,7 @@
 						if (!next) {
 							return $(methods.humanMove(snake.direction, snake));
 						}
-						
+
 						return $(next);
 					},
 
@@ -661,16 +663,16 @@
 						if (!$scope.game.startedMoving && inputs.length === 0) {
 							$scope.game.score = 0;
 							$scope.game.steps = 0;
-							$scope.game.time  = "0.00";
+							$scope.game.time = "0.00";
 
 							return
-						} 
+						}
 						$scope.game.startedMoving = true;
 
 						return methods.humanGetNext(inputs, helper.snake, directionMap)
 					},
 
-					human_mpNext : (neighbors) => {
+					human_mpNext: (neighbors) => {
 						let inputs = input.get(["arrowup", "arrowdown", "arrowleft", "arrowright"]);
 						let inputs2 = input.get(["w", "a", "s", "d"]);
 						input.clearBuffer();
@@ -702,13 +704,13 @@
 					humanMove: (direction, snake) => {
 						switch (direction) {
 							case "top":
-								return methods.getCell({x: snake.head.x - 1, y: snake.head.y});
+								return methods.getCell({ x: snake.head.x - 1, y: snake.head.y });
 							case "bottom":
-								return methods.getCell({x: snake.head.x + 1, y: snake.head.y});
+								return methods.getCell({ x: snake.head.x + 1, y: snake.head.y });
 							case "start":
-								return methods.getCell({x: snake.head.x, y: snake.head.y - 1});
+								return methods.getCell({ x: snake.head.x, y: snake.head.y - 1 });
 							case "end":
-								return methods.getCell({x: snake.head.x, y: snake.head.y + 1});
+								return methods.getCell({ x: snake.head.x, y: snake.head.y + 1 });
 						}
 					},
 
@@ -739,11 +741,13 @@
 
 					// Get squished
 					squish: (snake) => {
+						if (methods.getCell(snake.head).length !== 0) return;
+
 						let firstBody = methods.getCell(snake.body[0])[0];
 						firstBody.classList.add("head");
 						firstBody.classList.add(snake.prevDirection);
 					},
-						
+
 					// Set food
 					setFood: () => {
 						let freeCels = helper.body.find("td").not(".snake, .snake2, .head, .food, .stone");
@@ -780,12 +784,12 @@
 													 td[row="${pos.x + 1}"][col="${pos.y}"],
 													 td[row="${pos.x}"][col="${pos.y - 1}"],
 													 td[row="${pos.x}"][col="${pos.y + 1}"]`,
-								neighbors;
-							if ($scope.options.isHuman) {
-								neighbors = helper.body.find(skeleton).not(".snake")
-							} else {
-								neighbors = helper.body.find(skeleton).not(`.snake, .head, .stone${className}`);
-							}
+							neighbors;
+						if ($scope.options.isHuman) {
+							neighbors = helper.body.find(skeleton).not(".snake")
+						} else {
+							neighbors = helper.body.find(skeleton).not(`.snake, .head, .stone${className}`);
+						}
 						return neighbors;
 					},
 
@@ -902,59 +906,59 @@
 			'$scope',
 			'$stateParams',
 			'$state',
-			function($scope, $stateParams,$state) {
+			function ($scope, $stateParams, $state) {
 				$scope.data = {
 					name: null,
 					score: null
 				}
 				$scope.data.score = $stateParams.score;
-				
 
 
-				$scope.register = function() {
+
+				$scope.register = function () {
 					fetch("./php/register.php",
 						{
 							body: JSON.stringify($scope.data),
 							method: "POST"
 						}
 					)
-					.then(res => res.json())
-					.then(res => {
-						if (!res.error) {
-							alert("Sikeres adatfelvétel!");
-							$state.go("topList");
-						} else {
-							alert("Hiba, kérlek próbáld újra!")
-						}
-					})
-					.catch(e => alert("Hiba, kérlek próbáld újra!"));
+						.then(res => res.json())
+						.then(res => {
+							if (!res.error) {
+								alert("Sikeres adatfelvétel!");
+								$state.go("topList");
+							} else {
+								alert("Hiba, kérlek próbáld újra!")
+							}
+						})
+						.catch(e => alert("Hiba, kérlek próbáld újra!"));
 				}
 
-				$scope.return = function() {
+				$scope.return = function () {
 					$state.go('game');
 				}
 
-				
+
 			}
 		])
 
 		.controller('topListController', [
 			'$scope',
 			'$state',
-			function($scope,$state) {
+			function ($scope, $state) {
 				$scope.topList;
 
-				$scope.getTop = function() {
+				$scope.getTop = function () {
 					fetch("./php/getLeaderboard.php")
-					.then(res => res.json())
-					.then(res => {
-						$scope.topList = res.data;
-						$scope.$applyAsync();
-					})
-					.catch(e => alert("Hiba, kérlek próbáld újra!"));
+						.then(res => res.json())
+						.then(res => {
+							$scope.topList = res.data;
+							$scope.$applyAsync();
+						})
+						.catch(e => alert("Hiba, kérlek próbáld újra!"));
 				}
-				
-				$scope.return = function() {
+
+				$scope.return = function () {
 					$state.go('game');
 				}
 
