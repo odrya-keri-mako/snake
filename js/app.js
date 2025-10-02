@@ -735,6 +735,8 @@
 
 					// Get squished
 					squish: (snake) => {
+						if (methods.getCell(snake.head).length !== 0) return;
+
 						let firstBody = methods.getCell(snake.body[0])[0];
 						firstBody.classList.add("head");
 						firstBody.classList.add(snake.prevDirection);
