@@ -316,7 +316,7 @@
 								x: 15,
 								y: 25
 							};
-							$scope.options.stones = 0;
+							if (!$scope.options.isMP) $scope.options.stones = 0;
 						}
 
 						$scope.game.startedMoving = false;
@@ -764,7 +764,7 @@
 					// Set stones
 					setStones: () => {
 						for (let i = 0; i < $scope.options.stones; i++) {
-							let freeCels = helper.body.find("td").not(".snake, .head, .food, .stone"),
+							let freeCels = helper.body.find("td").not(".snake, .snake2, .head, .food, .stone"),
 								stone = $(freeCels[Math.floor(Math.random() * freeCels.length)]),
 								neighbors = methods.neighbors(methods.position(stone));
 							stone.addClass("stone");
