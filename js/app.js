@@ -496,7 +496,11 @@
 
 					// Check is infinite
 					isInfinite: () => {
-						return false;
+						if (isHuman) {
+							return false;
+						}
+
+						return $scope.game.score < helper.minScore;
 					},
 
 					// Move
