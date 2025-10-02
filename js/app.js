@@ -423,25 +423,32 @@
 							
 						// Move
 						if (Array.isArray(next)) {
-							if (next[0] != null && (next[0].hasClass("snake") || next[0].hasClass("snake2"))) { 
-								let head = methods.getCell(helper.snake.head);
+							let func = (next, snake, snake2) => {
+								if (next[0] != null && (next[0].hasClass("snake") || next[0].hasClass("snake2"))) { 
+									let head = methods.getCell(snake.head);
 							
-								head.addClass(helper.snake.lastInput);
-								methods.ended();
-							}
+									head.addClass(snake.lastInput);
+									methods.ended();
+								}
 
-							methods.move(next[0], helper.snake);
+								methods.move(next[0], snake);
 
-							if (next[1] != null && (next[1].hasClass("snake") || next[1].hasClass("snake2"))) { 
-								let head = methods.getCell(helper.snake2.head);
+								if (next[1] != null && (next[1].hasClass("snake") || next[1].hasClass("snake2"))) { 
+									let head = methods.getCell(snake2.head);
 							
-								head.addClass(helper.snake2.lastInput);
+									head.addClass(snake2.lastInput);
 
-								methods.ended();
+									methods.ended();
+								}
+
+								methods.move(next[1], snake2);
 							}
-
-							methods.move(next[1], helper.snake2);
 						
+							if (Math.random() > 0.5)
+								func(next, helper.snake, helper.snake2);
+							else
+								func([next[1], next[0]], helper.snake2, helper.snake);
+
 							return;
 						}
 
