@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Okt 01. 08:23
+-- Létrehozás ideje: 2025. Okt 02. 11:51
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -32,6 +32,15 @@ CREATE TABLE `user` (
   `score` int(11) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- A tábla adatainak kiíratása `user`
+--
+
+INSERT INTO `user` (`name`, `score`, `timestamp`) VALUES
+('Kis Kelemen', 1, '2025-10-01 10:19:29'),
+('Nagy Nándor', 2, '2025-10-01 10:19:29'),
+('Döme Zoltán', 5955, '2025-10-01 13:56:15');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
