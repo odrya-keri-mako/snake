@@ -735,7 +735,7 @@
 						
 					// Set food
 					setFood: () => {
-						let freeCels = helper.body.find("td").not(".snake, .head, .food, .stone");
+						let freeCels = helper.body.find("td").not(".snake, .snake2, .head, .food, .stone");
 						while (freeCels.length) {
 							let ind = Math.floor(Math.random() * freeCels.length),
 								food = $(freeCels[ind]),
