@@ -386,12 +386,24 @@
 
 						// Get/Check neighbors
 						let neighbors = methods.neighbors(helper.snake.head);
+
 						if (!neighbors.length ||
 							methods.isInfinite()) {
+								
+								// Game ended
+								methods.ended();
+								return;
+							}
 
-							// Game ended
-							methods.ended();
-							return;
+						if ($scope.options.isMP) {
+							let neighbors2 = methods.neighbors(helper.snake2.head);
+							if (!neighbors2.length ||
+									methods.isInfinite()) {
+										
+										// Game ended
+										methods.ended();
+										return;
+									}
 						}
 
 						// Check that one of the neighbors is food, 
@@ -454,8 +466,9 @@
 					ended: () => {
 
 						// If going outside the map, keep head
-						if (!helper.snake.head.x && $scope.options.isHuman) methods.squish();
-					
+						if (!helper.snake.head.x && $scope.options.isHuman) methods.squish(helper.snake);
+						if (!helper.snake2.head.x && $scope.options.isHuman) methods.squish(helper.snake2);
+						
 						// Clear interval, set satus, and stop the game
 						methods.clearInterval();
 						helper.audioEnded.play();
@@ -714,10 +727,10 @@
 					},
 
 					// Get squished
-					squish: () => {
-						let firstBody = methods.getCell(helper.snake.body[0])[0];
+					squish: (snake) => {
+						let firstBody = methods.getCell(snake.body[0])[0];
 						firstBody.classList.add("head");
-						firstBody.classList.add(helper.snake.prevDirection);
+						firstBody.classList.add(snake.prevDirection);
 					},
 						
 					// Set food
