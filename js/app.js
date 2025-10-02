@@ -500,7 +500,25 @@
 							snake.body.splice(-1, 1);
 						} else {
 							helper.audioEated.play();
-							$scope.game.score += 100;
+
+							// Sebesség alapján pontok
+							switch ($scope.options.delay) {
+								case 200:
+									$scope.game.score += 50;
+									break
+								case 100:
+									$scope.game.score += 100;
+									break;
+								case 50:
+									$scope.game.score += 150;
+									break;
+								case 25:
+									$scope.game.score += 200;
+									break;
+								default:
+										break;
+								}
+							
 							$scope.game.snakeLength++;
 							next.removeClass("food");
 							methods.setFood();
