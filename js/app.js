@@ -489,7 +489,7 @@
 
 					// Check is infinite
 					isInfinite: () => {
-						return $scope.game.score < helper.minScore;
+						return false;
 					},
 
 					// Move
