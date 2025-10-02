@@ -184,20 +184,21 @@
 						<div class="row mb-2">
 							<label for="snake-delay" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">késleltetés:</span>
+								<span class="text-capitalize">sebesség:</span>
 							</label>
 							<div class="col-12 col-md-7">
-								<input id="snake-delay"
-											 class="form-control form-control-sm"
-											 name="delay" 
-											 type="number"
-											 autocomplete="off" 
-											 required
-											 min="10"
-											 max="2000"
-											 onkeydown="return false"
-											 ng-model="options.delay"
-											 ng-disabled="game.status!=='stopped'">
+								<select 
+									id="snake-delay" 
+									class="form-select form-select-sm"
+									ng-model="options.delay" 
+									required
+									ng-disabled="game.status !== 'stopped'"
+								>
+									<option ng-value="200">Lassú</option>
+									<option ng-value="100" selected>Normál</option>
+									<option ng-value="50">Gyors</option>
+									<option ng-value="25">Sebes</option>
+								</select>
 							</div>
 						</div>
 
@@ -209,7 +210,7 @@
 							</label>
 							<div class="col-12 col-md-7">
 								<select id="snake-player"
-												class="form-select"
+												class="form-select form-select-sm"
 												ng-model="options.playerID" 
 												ng-change="methods.refresh()"
 												ng-options="x.id as x.name disable when !x.valid 

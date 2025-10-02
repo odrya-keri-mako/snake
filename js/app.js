@@ -319,6 +319,8 @@
 							$scope.options.stones = 0;
 						}
 
+						$scope.game.startedMoving = false;
+
 						// Remove entries from cells
 						helper.body.find('td')
 							.removeClass('snake snake2 head food stone start end top bottom');
