@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Okt 02. 11:51
+-- Létrehozás ideje: 2025. Okt 03. 08:11
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `score` int(11) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp()
@@ -37,10 +38,30 @@ CREATE TABLE `user` (
 -- A tábla adatainak kiíratása `user`
 --
 
-INSERT INTO `user` (`name`, `score`, `timestamp`) VALUES
-('Kis Kelemen', 1, '2025-10-01 10:19:29'),
-('Nagy Nándor', 2, '2025-10-01 10:19:29'),
-('Döme Zoltán', 5955, '2025-10-01 13:56:15');
+INSERT INTO `user` (`id`, `name`, `score`, `timestamp`) VALUES
+(1, 'Kis Kelemen', 1, '2025-10-01 10:19:29'),
+(2, 'Nagy Nándor', 2, '2025-10-01 10:19:29'),
+(3, 'Döme Zoltán', 5955, '2025-10-01 13:56:15');
+
+--
+-- Indexek a kiírt táblákhoz
+--
+
+--
+-- A tábla indexei `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- A kiírt táblák AUTO_INCREMENT értéke
+--
+
+--
+-- AUTO_INCREMENT a táblához `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
