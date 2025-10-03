@@ -166,12 +166,6 @@
 							$scope.game.attempt++;
 						}
 
-						// Check player function exist
-						if (typeof methods[`${$scope.options.playerID}Next`] !== 'function') {
-							alert(`Player '${$scope.options.playerID}' is not implemented yet!`);
-							return;
-						}
-
 						// Start
 						$scope.game.status = "started";
 						methods.play();
