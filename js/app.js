@@ -745,18 +745,11 @@
 					// Set food
 					setFood: () => {
 						let freeCels = helper.body.find("td").not(".snake, .snake2, .head, .food, .stone");
-						while (freeCels.length) {
-							let ind = Math.floor(Math.random() * freeCels.length),
-								food = $(freeCels[ind]),
-								pos = methods.position(food);
-							if (methods.isEscapeRoute(pos)) {
-								food.addClass('food');
-								helper.food = pos;
-								return;
-							}
-							freeCels.splice(ind, 1);
-						}
-						methods.ended();
+						let ind = Math.floor(Math.random() * freeCels.length),
+							food = $(freeCels[ind]),
+							pos = methods.position(food);
+						food.addClass('food');
+						helper.food = pos;
 					},
 
 					// Set stones
