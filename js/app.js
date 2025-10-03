@@ -498,7 +498,7 @@
 
 					// Check is infinite
 					isInfinite: () => {
-						if (isHuman) {
+						if ($scope.options.isHuman) {
 							return false;
 						}
 
