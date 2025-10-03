@@ -72,6 +72,7 @@
 					size: { x: 15, y: 25 },
 					stones: 0,
 					delay: 100,
+					apples : 1,
 					autoPlay: false,
 					players: [
 						{ id: 'human', valid: true, name: 'Ember' },
@@ -273,6 +274,13 @@
 								methods.reset();
 							}
 						});
+						
+						// Options apples changed
+						$scope.$watch('options.apples', (newValue, oldValue) => {
+							if (!angular.equals(newValue, oldValue)) {
+								methods.reset();
+							}
+						});
 
 						// Watch peak (top score) changed
 						$scope.$watch('game.peak', (newValue, oldValue) => {
@@ -310,7 +318,10 @@
 								x: 15,
 								y: 25
 							};
-							if (!$scope.options.isMP) $scope.options.stones = 0;
+							if (!$scope.options.isMP || $scope.playerID == "astar_e") {
+								$scope.options.stones = 0;
+								$scope.options.apples = 1;
+							} 
 						}
 
 						$scope.game.startedMoving = false;
@@ -370,7 +381,10 @@
 							}
 
 							methods.setStones();
-							methods.setFood();
+							for (let i = 0; i < $scope.options.apples; i++) {
+								methods.setFood();
+							}
+
 						});
 					},
 
