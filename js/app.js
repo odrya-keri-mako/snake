@@ -661,14 +661,18 @@
 
 					// Human player
 					humanNext: () => {
-						let inputs = input.get(["arrowup", "arrowdown", "arrowleft", "arrowright"]);
+						let inputs = input.get(["arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"]);
 						input.clearBuffer();
 
 						let directionMap = {
 							"arrowup": "top",
 							"arrowdown": "bottom",
 							"arrowleft": "start",
-							"arrowright": "end"
+							"arrowright": "end",
+							"w": "top",
+							"s": "bottom",
+							"a": "start",
+							"d": "end"
 						};
 
 						if (!$scope.game.startedMoving && inputs.length === 0) {
