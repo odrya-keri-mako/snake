@@ -292,7 +292,7 @@
 						// Watch countdown changed
 						$scope.$watch('game.countdown', (newValue, oldValue) => {
 							if (!angular.equals(newValue, oldValue)) {
-								if (newValue === 0) {
+								if (newValue <= 0) {
 									$interval.cancel(helper.countdownID);
 									if (helper.isHuman && !helper.isMP) $scope.game.peak = Math.max($scope.game.peak, $scope.game.score);
 									methods.reset();
@@ -497,7 +497,7 @@
 							$scope.methods.stop();
 							$scope.methods.refresh();
 						} else if ($scope.options.autoPlay) {
-							$scope.game.countdown = 10;
+							$scope.game.countdown = 1;
 							helper.countdownID = $interval(() => {
 								$scope.game.countdown--;
 							}, 1000);
