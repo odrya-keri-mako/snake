@@ -548,7 +548,7 @@
 							$scope.game.snakeLength++;
 							next.removeClass("food");
 							methods.setFood();
-							methods.shineEffect();
+							methods.shineEffect(snake);
 						}
 					},
 
@@ -867,19 +867,22 @@
 					},
 
 					// Shine effect
-					shineEffect: () => {
+					shineEffect: (snake) => {
+						console.log(snake);
 						let delay = 0,
-							length = helper.snake.body.length;
+							length = snake.body.length;
 						for (let i = 0; i < length; i++) {
-							if (helper.snake.body.length !== length) {
+							if (snake.body.length !== length) {
 								if (helper.effectID)
 									$timeout.cancel(helper.effectID);
 								break;
 							}
-							let pos = helper.snake.body[i];
+							let pos = snake.body[i];
 							helper.effectID = $timeout(() => {
 								let cell = helper.body.find(`td[row="${pos.x}"][col="${pos.y}"]`);
-								if (cell.length && cell.hasClass('snake') && !cell.hasClass('shine')) {
+								if (cell.length &&
+									 (cell.hasClass('snake') || cell.hasClass('snake2')) &&
+									 !cell.hasClass('shine')) {
 									setTimeout(() => {
 										cell.removeClass("shine");
 									}, 200);
