@@ -7,7 +7,7 @@
 				<span class="ms-2">Snake game</span>
 				<span class="ms-5 text-center d-inline-block fw-bold text-warning"
 							style="width:30px!important;"
-							ng-class="{'invisible': game.countdown === null}">
+							ng-class="{'invisible': game.countdown === null || game.countdown <= 0}">
 					{{game.countdown}}
 				</span>
 			</div>
