@@ -907,24 +907,25 @@
 				$scope.register = function () {
 					if ($scope.data.score == 0) {
 						alert("Nem lehet 0 pontot regisztrálni!");
-						$state.go("home");
-					}
-					fetch("./php/register.php",
-						{
-							body: JSON.stringify($scope.data),
-							method: "POST"
-						}
-					)
-						.then(res => res.json())
-						.then(res => {
-							if (!res.error) {
-								alert("Sikeres adatfelvétel!");
-								$state.go("topList");
-							} else {
-								alert("Hiba, kérlek próbáld újra!")
+						$state.go("game");
+					} else {
+						fetch("./php/register.php",
+							{
+								body: JSON.stringify($scope.data),
+								method: "POST"
 							}
-						})
-						.catch(e => alert("Hiba, kérlek próbáld újra!"));
+						)
+							.then(res => res.json())
+							.then(res => {
+								if (!res.error) {
+									alert("Sikeres adatfelvétel!");
+									$state.go("topList");
+								} else {
+									alert("Hiba, kérlek próbáld újra!")
+								}
+							})
+							.catch(e => alert("Hiba, kérlek próbáld újra!"));
+						}
 				}
 
 				$scope.return = function () {
