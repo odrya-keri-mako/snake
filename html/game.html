@@ -61,9 +61,10 @@
 					<button type="button" 
 									class="btn btn-sm btn-warning w-auto mx-3"
 									ng-click="methods.pause()"
-									ng-disabled="(game.status!=='started'&&game.status!=='paused')
+									ng-disabled="(game.status!=='started'&&game.status === 'paused')
 												  		  || options.playerID == 'human'
-																|| options.playerID == 'human_mp'">
+																|| options.playerID == 'human_mp'"
+									ng-show="!options.isHuman">
 						<i class="fa-solid fa-pause me-1"></i>
 						<span class="text-capitalize">megállít</span>
 					</button>
