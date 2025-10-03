@@ -215,7 +215,7 @@
 
 					// Reset options
 					resetOptions: () => {
-						if (window.confirm("Biztos visszaállítod beállításaidat?")) {
+						if (window.confirm("Biztos visszaállítod?")) {
 							$scope.options = structuredClone($scope.baseOptions);
 
 						}
@@ -918,6 +918,10 @@
 
 
 				$scope.register = function () {
+					if ($scope.data.score == 0) {
+						alert("Nem lehet 0 pontot regisztrálni!");
+						$state.go("home");
+					}
 					fetch("./php/register.php",
 						{
 							body: JSON.stringify($scope.data),
