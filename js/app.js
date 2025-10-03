@@ -420,6 +420,7 @@
 						// and define variable for later use
 						let food = neighbors.filter(".food"),
 							next = null;
+						
 						if ($scope.options.playerID === "human" || $scope.options.playerID === "human_mp") {
 							next = methods[`${$scope.options.playerID}Next`](neighbors);
 						}
@@ -429,6 +430,8 @@
 								// Call player algorithm
 								next = methods[`${$scope.options.playerID}Next`](neighbors);
 							else next = neighbors;
+						} else if (food.length > 1) {
+							next = $(food[0]);
 						} else next = food;
 
 						// Move
@@ -673,19 +676,19 @@
 							$scope.game.steps = 0;
 							$scope.game.time = "0.00";
 
-							return
+							return;
 						}
 						$scope.game.startedMoving = true;
 
-						return methods.humanGetNext(inputs, helper.snake, directionMap)
+						return methods.humanGetNext(inputs, helper.snake, directionMap);
 					},
 
-					human_mpNext: (neighbors) => {
+					human_mpNext: () => {
 						let inputs = input.get(["arrowup", "arrowdown", "arrowleft", "arrowright"]);
 						let inputs2 = input.get(["w", "a", "s", "d"]);
 						input.clearBuffer();
 
-						if (!$scope.game.startedMoving && (inputs.length === 0 || inputs2.length === 0)) return
+						if (!$scope.game.startedMoving && (inputs.length === 0 || inputs2.length === 0)) return;
 						$scope.game.startedMoving = true;
 
 						let directionMap = {
@@ -705,7 +708,7 @@
 						let next = methods.humanGetNext(inputs, helper.snake, directionMap);
 						let next2 = methods.humanGetNext(inputs2, helper.snake2, directionMap2);
 
-						return [next, next2]
+						return [next, next2];
 					},
 
 					// Get next cell based on direction
