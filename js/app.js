@@ -205,7 +205,7 @@
 
 					// Reset peak (top score)
 					resetPeak: () => {
-						if (window.confirm("Do you really want to reset top score?")) {
+						if (window.confirm("Biztos visszaállítod pontjaidat 0-ra?")) {
 							$scope.game.peak = 0;
 							$scope.game.attempt = 0;
 							localStorage.removeItem("snake_game_attempt");
@@ -215,7 +215,7 @@
 
 					// Reset options
 					resetOptions: () => {
-						if (window.confirm("Do you really want to reset?")) {
+						if (window.confirm("Biztos visszaállítod beállításaidat?")) {
 							$scope.options = structuredClone($scope.baseOptions);
 
 						}
@@ -868,7 +868,6 @@
 
 					// Shine effect
 					shineEffect: (snake) => {
-						console.log(snake);
 						let delay = 0,
 							length = snake.body.length;
 						for (let i = 0; i < length; i++) {
