@@ -127,7 +127,7 @@ table.game-panel td.snake2.head.bottom::after {
 @keyframes blink { 
 	50% { border-color: red; } 
 }
-table.game-panel td.snake.shine::after {
+table.game-panel td:is(.snake, .snake2).shine::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -142,6 +142,7 @@ table.game-panel td.snake.shine::after {
 	);
 	animation: shine-effect 0.2s linear;
 }
+
 @keyframes shine-effect {
 	from {left: -100%;}
 	to {left: 100%;}
