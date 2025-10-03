@@ -185,7 +185,7 @@
 					// Stop
 					stop: () => {
 						methods.clearInterval();
-						if ($scope.game.status === "ended" && helper.isHuman && !helper.isMP)
+						if ($scope.game.status === "ended" && $scope.options.isHuman && !$scope.options.isMP)
 							$scope.game.peak = Math.max($scope.game.peak, $scope.game.score);
 						$scope.game.status = "stopped";
 						methods.reset();
