@@ -426,7 +426,7 @@
 						// Move
 						if (Array.isArray(next)) {
 							let func = (next, snake, snake2) => {
-								if (next[0] != null && (next[0].hasClass("snake") || next[0].hasClass("snake2"))) {
+								if (next[0] != null && (next[0].hasClass("snake") || next[0].hasClass("snake2") || (next[0].hasClass("stone")))) {
 									let head = methods.getCell(snake.head);
 
 									head.addClass(snake.lastInput);
@@ -435,7 +435,7 @@
 
 								methods.move(next[0], snake);
 
-								if (next[1] != null && (next[1].hasClass("snake") || next[1].hasClass("snake2"))) {
+								if (next[1] != null && (next[1].hasClass("snake") || next[1].hasClass("snake2") || next[1].hasClass("stone"))) {
 									let head = methods.getCell(snake2.head);
 
 									head.addClass(snake2.lastInput);
