@@ -32,7 +32,7 @@ CREATE TABLE `user` (
   `name` varchar(50) NOT NULL,
   `score` int(11) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8mb4_unicode_520_ci;
 
 --
 -- A tábla adatainak kiíratása `user`
