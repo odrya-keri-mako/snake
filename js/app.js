@@ -457,7 +457,7 @@
 								methods.move(next[1], snake2);
 							}
 
-							if (Math.random() > 0.5)
+							if (helper.snake.body.length === helper.snake2.body.length ? Math.random() > 0.5 : helper.snake.body.length > helper.snake2.body.length)
 								func(next, helper.snake, helper.snake2);
 							else
 								func([next[1], next[0]], helper.snake2, helper.snake);
