@@ -153,7 +153,6 @@
 
 					// Start
 					start: () => {
-
 						// Clear interval when exist
 						methods.clearInterval();
 
@@ -174,6 +173,7 @@
 
 						// Start
 						$scope.game.status = "started";
+						$scope.game.winner = null;
 						methods.play();
 						helper.interval = $interval(() => {
 							methods.play();
