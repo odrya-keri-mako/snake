@@ -102,6 +102,8 @@
 					attempt: 0,
 					peak: 0,
 					countdown: null,
+					winner: null,
+					winnerDecided: false,
 					audioName: "eated",
 					maxStones: 18
 				};
@@ -113,11 +115,13 @@
 					audioEnded: document.getElementById("audioEnded"),
 					interval: null,
 					countdownID: null,
+					winnerTextTimeoutID: null,
 					food: { x: null, y: null },
 					snake: {
 						head: { x: null, y: null },
 						body: [],
 						class: "snake",
+						name: "smaragd",
 						lastInput: null,
 						direction: null,
 						prevDirection: null
@@ -126,6 +130,7 @@
 						head: { x: null, y: null },
 						body: [],
 						class: "snake2",
+						name: "bíbor",
 						lastInput: null,
 						direction: null,
 						prevDirection: null
@@ -325,6 +330,7 @@
 						}
 
 						$scope.game.startedMoving = false;
+						$scope.game.winnerDecided = false;
 
 						// If multiplayer, set snake to mp position
 						// If not, random orientation in base position
@@ -388,6 +394,20 @@
 						});
 					},
 
+					winnerTimeout: (name) => {
+						if ($scope.game.winnerDecided) return;
+						
+						$scope.game.winner = name;
+						$scope.game.winnerDecided = true;
+
+						if (helper.winnerTextTimeoutID) $timeout.cancel(helper.winnerTextTimeoutID);
+
+						helper.winnerTextTimeoutID = $timeout(function() {
+							$scope.game.winner = null;
+							helper.winnerTextTimeoutID = null;
+						}, 5000);
+					},
+
 					// Play
 					play: () => {
 
@@ -441,7 +461,9 @@
 									let head = methods.getCell(snake.head);
 
 									head.addClass(snake.lastInput);
+									methods.winnerTimeout(snake2.name);
 									methods.ended();
+									return;
 								}
 
 								methods.move(next[0], snake);
@@ -450,8 +472,9 @@
 									let head = methods.getCell(snake2.head);
 
 									head.addClass(snake2.lastInput);
-
+									methods.winnerTimeout(snake.name);
 									methods.ended();
+									return;
 								}
 
 								methods.move(next[1], snake2);
@@ -484,11 +507,18 @@
 
 					// Game ended
 					ended: () => {
+						let squished = false;
 
 						// If going outside the map, keep head
-						if (!helper.snake.head.x && $scope.options.isHuman) methods.squish(helper.snake);
-						if (!helper.snake2.head.x && $scope.options.isMP) methods.squish(helper.snake2);
-
+						if (!helper.snake.head.x && $scope.options.isHuman) {
+							methods.squish(helper.snake);
+							squished = true;
+							if ($scope.options.isMP) methods.winnerTimeout(helper.snake2.name);
+						}
+						if (!helper.snake2.head.x && $scope.options.isMP) {
+							methods.squish(helper.snake2);
+							if (!squished) methods.winnerTimeout(helper.snake.name);
+						}
 						// Clear interval, set satus, and stop the game
 						methods.clearInterval();
 						helper.audioEnded.play();
