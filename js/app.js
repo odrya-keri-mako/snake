@@ -530,7 +530,7 @@
 							$scope.methods.stop();
 							$scope.methods.refresh();
 						} else if ($scope.options.autoPlay) {
-							$scope.game.countdown = 1;
+							$scope.game.countdown = 5;
 							helper.countdownID = $interval(() => {
 								$scope.game.countdown--;
 							}, 1000);
