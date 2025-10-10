@@ -37,11 +37,11 @@
 						controller: 'gameController',
 						templateUrl: './html/game.html'
 					})
-					.state('register', {
-						url: '/register',
+					.state('submit', {
+						url: '/submit',
 						parent: 'root',
-						controller: 'registerController',
-						templateUrl: './html/register.html',
+						controller: 'submitController',
+						templateUrl: './html/submit.html',
 						params: {
 							score: null
 						}
@@ -222,8 +222,8 @@
 					},
 
 					// Record peak (top score), and attempt
-					registerPeak: () => {
-						$state.go("register", { score: $scope.game.peak });
+					submitPeak: () => {
+						$state.go("submit", { score: $scope.game.peak });
 					},
 
 					//View Top list
@@ -941,8 +941,8 @@
 			}
 		])
 
-		// Register controller
-		.controller('registerController', [
+		// Submit controller
+		.controller('submitController', [
 			'$scope',
 			'$stateParams',
 			'$state',
@@ -955,12 +955,12 @@
 
 
 
-				$scope.register = function () {
+				$scope.submit = function () {
 					if ($scope.data.score == 0) {
 						alert("Nem lehet 0 pontot regisztrálni!");
 						$state.go("game");
 					} else {
-						fetch("./php/register.php",
+						fetch("./php/submit.php",
 							{
 								body: JSON.stringify($scope.data),
 								method: "POST"

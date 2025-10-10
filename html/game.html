@@ -4,7 +4,7 @@
 			<!-- Title/countdown -->
 			<div class="display-6 text-center col-9">
 				<img ng-src="./img/snake.ico" width="50" height="50" alt="snake">
-				<span class="align-middle">Snake game</span>
+				<span class="align-middle">Snake</span>
 				<span class="ms-5 text-center align-middle d-inline-block fw-bold text-warning"
 							style="width:30px!important;"
 							ng-class="{'d-none': game.countdown === null || game.countdown <= 0}">
@@ -15,9 +15,9 @@
 			<!-- Logo -->
 			<div class="text-center col-3 m-0 p-0 d-flex align-items-center justify-content-center">
 				<div class="logo bg-img bg-img-contain m-0 p-0"></div>
-				<h3 class="ms-3 d-inline-block w-auto">
-					<span class="fs-3">KERI</span>
-					<span class="fs-5 m2-1">Makó</span>
+				<h3 class="ms-3 mb-0 d-flex flex-column w-auto">
+					<span class="fs-3 align-middle">KERI</span>
+					<span class="fs-6 align-baseline">Makó</span>
 				</h3>
 			</div>
 		</div>
@@ -345,7 +345,7 @@
 							<div class="col-12 col-md-7">
 								<div class="input-group">
 									<button id="peak-reset"
-													class="btn btn-outline-danger text-capitalize" 
+													class="btn btn-sm btn-outline-danger text-capitalize" 
 													type="button"
 													ng-disabled="game.status!=='stopped'"
 													title="Reset peak (top score)"
@@ -362,17 +362,17 @@
 							</div>
 						</div>
 
-						<!-- Register top score -->
-						<div class="row mb-1" ng-if="options.playerID === 'human'">
-							<label for="register" 
+						<!-- submit top score -->
+						<div class="row mb-2" ng-if="options.playerID === 'human'">
+							<label for="submit" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
-								<span class="text-capitalize">Pontok regisztrálása:</span>
+								<span class="text-capitalize">Pontok beküldése:</span>
 							</label>
 							<div class="col-12 col-md-7">
-								<button id="register"
-												class="btn btn-primary w-100 h-100"
-												ng-click="methods.registerPeak()"
-												ng-disabled="game.status!=='stopped'"> Regisztrálás
+								<button id="submit"
+												class="btn btn-sm btn-primary w-100 h-100"
+												ng-click="methods.submitPeak()"
+												ng-disabled="game.status!=='stopped'"> Beküldés
 								</button>
 								</select>
 							</div>
@@ -380,13 +380,13 @@
 
 						<!-- View top list -->
 						<div class="row mb-1">
-							<label for="register" 
+							<label for="topList" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">Top Lista:</span>
 							</label>
 							<div class="col-12 col-md-7">
-								<button id="register"
-												class="btn btn-primary w-100 h-100"
+								<button id="topList"
+												class="btn btn-sm btn-primary w-100 h-100"
 												ng-click="methods.viewTopList()"
 												ng-disabled="game.status!=='stopped'"> Megnéz
 								</button>
