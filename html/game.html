@@ -5,7 +5,8 @@
 			<div class="display-6 text-center col-9">
 				<img ng-src="./img/snake.ico" width="50" height="50" alt="snake">
 				<span class="align-middle">Snake</span>
-				<span class="ms-5 text-center align-middle d-inline-block fw-bold text-warning"
+				<img ng-class="{'d-none': !(game.countdown === null || game.countdown <= 0)}" ng-src="./img/snake.ico" width="50" height="50" alt="snake">
+				<span class="text-center align-middle d-inline-block fw-bold text-warning"
 							style="width:30px!important;"
 							ng-class="{'d-none': game.countdown === null || game.countdown <= 0}">
 					{{game.countdown}}
