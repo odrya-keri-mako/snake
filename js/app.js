@@ -953,7 +953,7 @@
 				}
 				$scope.data.score = $stateParams.score;
 
-
+				if ($scope.data.name == null && $scope.data.score == null) $state.go("game");
 
 				$scope.submit = function () {
 					if ($scope.data.score == 0) {
