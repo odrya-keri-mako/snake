@@ -226,10 +226,22 @@
 									required
 									ng-disabled="game.status !== 'stopped'"
 								>
-									<option ng-value="200">Lassú (0.5x pont)</option>
-									<option ng-value="100" selected>Normál (1x pont)</option>
-									<option ng-value="50">Gyors (1.5x pont)</option>
-									<option ng-value="25">Sebes (2x pont)</option>
+									<option ng-value="200">
+										Lassú 
+										<span ng-if="options.playerID === 'human'">(0.5x pont)</span>
+									</option>
+									<option ng-value="100" selected>
+										Normál 
+										<span ng-if="options.playerID === 'human'">(1x pont)</span>
+									</option>
+									<option ng-value="50">
+										Gyors 
+										<span ng-if="options.playerID === 'human'">(1.5x pont)</span>
+									</option>
+									<option ng-value="25">
+										Sebes 
+										<span ng-if="options.playerID === 'human'">(2x pont)</span>
+									</option>
 								</select>
 							</div>
 						</div>
