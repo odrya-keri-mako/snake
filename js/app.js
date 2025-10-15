@@ -324,7 +324,7 @@
 								y: 25
 							};
 							if (!$scope.options.isMP || $scope.playerID == "astar_e") {
-								$scope.options.stones = 0;
+								$scope.options.stones = 8;
 								$scope.options.apples = 1;
 							} 
 						}
@@ -488,7 +488,7 @@
 							return;
 						}
 
-						if (next != null && next.hasClass("snake")) {
+						if (next != null && (next.hasClass("snake") || next.hasClass("stone"))) {
 							let head = methods.getCell(helper.snake.head);
 
 							head.addClass(helper.snake.lastInput);
