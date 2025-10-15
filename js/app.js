@@ -324,7 +324,6 @@
 								y: 25
 							};
 							if (!$scope.options.isMP || $scope.playerID == "astar_e") {
-								$scope.options.stones = 8;
 								$scope.options.apples = 1;
 							} 
 						}
