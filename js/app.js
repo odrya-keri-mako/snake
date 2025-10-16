@@ -18,44 +18,51 @@
 		'ui.router'
 	])
 
-		.config([
-			'$stateProvider',
-			'$urlRouterProvider',
-			function ($stateProvider, $urlRouterProvider) {
-				$stateProvider
-					.state('root', {
-						abstract: true,
-						views: {
-							'@': {
-								templateUrl: './html/root.html'
-							}
-						}
-					})
-					.state('game', {
-						url: '/',
-						parent: 'root',
-						controller: 'gameController',
-						templateUrl: './html/game.html'
-					})
-					.state('submit', {
-						url: '/submit',
-						parent: 'root',
-						controller: 'submitController',
-						templateUrl: './html/submit.html',
-						params: {
-							score: null
+	.config([
+		'$stateProvider',
+		'$urlRouterProvider',
+		function ($stateProvider, $urlRouterProvider) {
+			$stateProvider
+				.state('root', {
+					abstract: true,
+					views: {
+						'@': {
+							templateUrl: './html/root.html'
 						}
 					}
-					)
-					.state('topList', {
-						url: '/topList',
-						parent: 'root',
-						controller: 'topListController',
-						templateUrl: './html/topList.html'
-					})
-				$urlRouterProvider.otherwise('/');
-			}
-		])
+				})
+				.state('game', {
+					url: '/',
+					parent: 'root',
+					controller: 'gameController',
+					templateUrl: './html/game.html'
+				})
+				.state('submit', {
+					url: '/submit',
+					parent: 'root',
+					controller: 'submitController',
+					templateUrl: './html/submit.html',
+					params: {
+						score: null
+					}
+				}
+				)
+				.state('topList', {
+					url: '/topList',
+					parent: 'root',
+					controller: 'topListController',
+					templateUrl: './html/topList.html'
+				})
+				.state('giveAway', {
+					url: '/giveAway',
+					parent: 'root',
+					controller: 'giveAwayController',
+					templateUrl: './html/giveAway.html'
+				});
+				
+			$urlRouterProvider.otherwise('/');
+		}
+	])
 
 		// Game controller
 		.controller('gameController', [
@@ -986,6 +993,7 @@
 			}
 		])
 
+		// Toplist
 		.controller('topListController', [
 			'$scope',
 			'$state',
@@ -1007,6 +1015,15 @@
 				}
 
 				$scope.getTop();
+			}
+		])
+
+		// Give away controller
+		.controller('giveAwayController', [
+			'$scope',
+			'$state',
+			function ($scope, $state) {
+				console.log("giveAwayController controller")
 			}
 		])
 
