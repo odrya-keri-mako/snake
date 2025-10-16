@@ -1010,9 +1010,11 @@
 		.controller('giveAwayController', [
 			'$scope',
 			'$state',
-			'$interval',
-			function ($scope, $state, $interval) {
-				let intervalId = null;
+			'$timeout',
+			function ($scope, $state, $timeout) {
+				let timeoutId = null;
+				let timeoutTime = 20;
+				let currentIndex = null;
 				$scope.name = null;
 				$scope.started = false;
 
@@ -1028,17 +1030,17 @@
 				$scope.methods = {
 					start: () => {
 						$scope.started = true;
-						sorsolas();
-						intervalId = $interval(() => {
-							sorsolas();
-						}, 50);
+						currentIndex = Math.floor(Math.random() * $scope.names.length);
+						timeoutTime = 20;
+						timeoutId = sorsolas();
 					},
 					stop: () => {
 						$scope.started = false;
-						if (intervalId) {
-							$interval.cancel(intervalId);
-							intervalId = null;
+						if (timeoutId) {
+							$timeout.cancel(timeoutId);
+							timeoutId = null;
 						}
+						console.log($scope)
 					},
 					goBack: () => {
 						$state.go('game');
@@ -1046,9 +1048,21 @@
 				};
 				
 				function sorsolas() {
-					let index = Math.floor(Math.random() * $scope.names.length);
-					$scope.name = $scope.names[index].name;
+					currentIndex++;
+
+					$scope.namePrevious = getItemCircular($scope.names, currentIndex - 1).name;
+					$scope.name = getItemCircular($scope.names, currentIndex).name;
+					$scope.nameNext = getItemCircular($scope.names, currentIndex + 1).name;
+
+					timeoutTime *= 1.2;
+					if (timeoutTime < 1000) timeoutId = $timeout(sorsolas, timeoutTime);
+					else $scope.methods.stop();
+
 					$scope.$applyAsync();
+				}
+
+				function getItemCircular(arr, index) {
+					return arr[(index % arr.length + arr.length) % arr.length];
 				}
 			}
 		])

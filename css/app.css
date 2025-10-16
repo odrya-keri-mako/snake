@@ -147,3 +147,8 @@ table.game-panel td:is(.snake, .snake2).shine::after {
 	from {left: -100%;}
 	to {left: 100%;}
 }
+
+.winner {
+	color: goldenrod;
+	text-shadow: 0 0 10px hsla(43, 74%, 80%, 0.5);
+}
