@@ -229,6 +229,10 @@
 					//View Top list
 					viewTopList: () => {
 						$state.go('topList');
+					},
+
+					viewSorsolas: () => {
+						$state.go("giveAway");
 					}
 				};
 
@@ -1006,8 +1010,41 @@
 		.controller('giveAwayController', [
 			'$scope',
 			'$state',
-			function ($scope, $state) {
-				console.log("giveAwayController controller")
+			'$interval',
+			function ($scope, $state, $interval) {
+				let intervalId = null;
+				$scope.name = null;
+
+				fetch('./php/getUsers.php')
+				.then(response => response.json())
+				.then(response => {
+					if (!response.error) {	
+						$scope.name = response.data;
+					} else console.log(response.error);
+				})
+				.catch(e => console.log(e));
+
+				$scope.methods = {
+					start: () => {
+						sorsolas();
+						intervalId = $interval(() => {
+							sorsolas();
+						}, 100);
+					},
+					stop: () => {
+						if (intervalId) {
+							$interval.cancel(intervalId);
+							intervalId = null;
+						}
+					},
+					goBack: () => {
+						$state.go('game');
+					}
+				};
+				
+				function sorsolas() {
+
+				}
 			}
 		])
 
