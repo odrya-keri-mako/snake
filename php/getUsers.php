@@ -1,8 +1,8 @@
 <?php
 
-require_once('../components/php/environment.php');
+require_once('../../common/php/environment.php');
 
-$db = new Database('snake');
+$db = new Database();
 
 $result = $db->execute("SELECT `name` FROM `user`");
 

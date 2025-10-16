@@ -1014,24 +1014,27 @@
 			function ($scope, $state, $interval) {
 				let intervalId = null;
 				$scope.name = null;
+				$scope.started = false;
 
 				fetch('./php/getUsers.php')
 				.then(response => response.json())
 				.then(response => {
 					if (!response.error) {	
-						$scope.name = response.data;
+						$scope.names = response.data;
 					} else console.log(response.error);
 				})
 				.catch(e => console.log(e));
 
 				$scope.methods = {
 					start: () => {
+						$scope.started = true;
 						sorsolas();
 						intervalId = $interval(() => {
 							sorsolas();
-						}, 100);
+						}, 50);
 					},
 					stop: () => {
+						$scope.started = false;
 						if (intervalId) {
 							$interval.cancel(intervalId);
 							intervalId = null;
@@ -1043,7 +1046,9 @@
 				};
 				
 				function sorsolas() {
-
+					let index = Math.floor(Math.random() * $scope.names.length);
+					$scope.name = $scope.names[index].name;
+					$scope.$applyAsync();
 				}
 			}
 		])

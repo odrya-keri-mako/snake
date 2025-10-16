@@ -377,13 +377,14 @@
 
 						<!-- submit top score -->
 						<div class="row mb-2" ng-if="options.playerID === 'human'">
-							<label for="submit" 
+							<label for="btn-submit" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">Pontok beküldése:</span>
 							</label>
 							<div class="col-12 col-md-7">
-								<button class="btn btn-sm btn-primary w-100 h-100" data-bs-toggle="modal" data-bs-target="#submit">Beküldés</button>
-								</select>
+								<button class="btn btn-sm btn-primary w-100 h-100"
+												id="btn-submit" 
+												data-bs-toggle="modal" data-bs-target="#submit">Beküldés</button>
 							</div>
 						</div>
 
@@ -399,23 +400,22 @@
 												ng-click="methods.viewTopList()"
 												ng-disabled="game.status!=='stopped'"> Megnéz
 								</button>
-								</select>
 							</div>
 						</div>
 
 						<!-- View sorsolás -->
 						<div class="row mb-1">
-							<label for="topList" 
+							<label for="sorsol" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">Sorsolás:</span>
 							</label>
 							<div class="col-12 col-md-7">
-								<button id="topList"
+								<button id="sorsol"
+												type="button"
 												class="btn btn-sm btn-primary w-100 h-100"
 												ng-click="methods.viewSorsolas()"
 												ng-disabled="game.status!=='stopped'">Sorsolás
 								</button>
-								</select>
 							</div>
 						</div>
 
