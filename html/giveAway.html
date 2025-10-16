@@ -1,1 +1,25 @@
-<h1>Neremény!</h1>
+<div class="container">
+  <div class="row">
+    <h1 class="text-centere">Sorsolás</h1>
+  </div>
+  <div class="row">
+    <h1 class="text-center display-1"
+        style="min-height:200px">
+      {{name}}
+    </h1>
+  </div>
+  <div class="row">
+    <button class="btn btn-sm btn-primary mx-2"
+						ng-click="methods.start()"> 
+      Sorsolás
+		</button>
+    <button class="btn btn-sm btn-danger mx-2"
+						ng-click="methods.stop()"> 
+      Megállít
+		</button>
+    <button class="btn btn-sm btn-secondary mx-2"
+						ng-click="methods.goBack()"> 
+      Kilép
+		</button>
+  </div>
+</div>
