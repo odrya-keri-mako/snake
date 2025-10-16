@@ -1,0 +1,67 @@
+<div class="modal" id="submit" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Pontok beküldése</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      	<form name="registrationForm" 
+              ng-submit="submitForm()" 
+              class="needs-validation"
+              autocomplete="off" 
+              novalidate>
+			
+          <!-- Teljes név -->
+          <div class="mb-3" 
+               ng-class="{'has-error': registrationForm.name.$touched && registrationForm.name.$invalid}">
+            <label for="name" class="form-label">Teljes név</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="name" 
+                   name="name" 
+                   ng-model="data.name" 
+                   required>
+            <div class="invalid-feedback d-block" 
+                 ng-show="registrationForm.name.$touched && registrationForm.name.$invalid">
+              A név megadása kötelező.
+            </div>
+          </div>
+			
+          <!-- Pontok -->
+          <div class="mb-3">
+            <label for="score" class="form-label">Pontok</label>
+            <input type="text" 
+                   class="form-control text-muted" 
+                   id="score" 
+                   name="score" 
+                   ng-model="$root.lastScore" 
+                   required
+                   disabled>
+          </div>
+				</form>
+      </div>
+      <div class="modal-footer">
+				<!-- Vissza gomb -->
+        <div class="d-grid">
+          <button type="submit" 
+                  class="btn btn-danger" 
+                  data-bs-dismiss="modal">
+            Vissza
+          </button>
+        </div>
+
+        <!-- Regisztráció gomb -->
+        <div class="d-grid">
+          <button type="submit" 
+                  class="btn btn-primary" 
+                  ng-disabled="registrationForm.$invalid"
+                  ng-click="submit()"
+									data-bs-dismiss="modal">
+            Beküldés
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

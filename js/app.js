@@ -28,6 +28,10 @@
 						views: {
 							'@': {
 								templateUrl: './html/root.html'
+							},
+							"submit@root": {
+								templateUrl: "./html/submitModal.html",
+								controller: "submitController"
 							}
 						}
 					})
@@ -37,16 +41,6 @@
 						controller: 'gameController',
 						templateUrl: './html/game.html'
 					})
-					.state('submit', {
-						url: '/submit',
-						parent: 'root',
-						controller: 'submitController',
-						templateUrl: './html/submit.html',
-						params: {
-							score: null
-						}
-					}
-					)
 					.state('topList', {
 						url: '/topList',
 						parent: 'root',
@@ -60,11 +54,12 @@
 		// Game controller
 		.controller('gameController', [
 			'$scope',
+			'$rootScope',
 			'$timeout',
 			'$interval',
 			'input',
 			'$state',
-			function ($scope, $timeout, $interval, input, $state) {
+			function ($scope, $rootScope, $timeout, $interval, input, $state) {
 
 
 				// Options (input models)
@@ -524,6 +519,10 @@
 						$scope.game.status = "ended";
 						$scope.game.startedMoving = false;
 
+						if ($scope.options.isHuman && !$scope.options.isMP) {
+							$rootScope.lastScore = $scope.game.score;
+						}
+
 						// Check auto play/refresh
 						if ($scope.options.isHuman && $scope.options.autoPlay) {
 							$scope.methods.stop();
@@ -943,46 +942,33 @@
 		// Submit controller
 		.controller('submitController', [
 			'$scope',
-			'$stateParams',
-			'$state',
-			function ($scope, $stateParams, $state) {
-				$scope.data = {
-					name: null,
-					score: null
-				}
-				$scope.data.score = $stateParams.score;
-
-				if ($scope.data.name == null && $scope.data.score == null) $state.go("game");
+			'$rootScope',
+			function ($scope, $rootScope) {
+				$scope.data = {};
 
 				$scope.submit = function () {
-					if ($scope.data.score == 0) {
-						alert("Nem lehet 0 pontot regisztrálni!");
-						$state.go("game");
-					} else {
-						fetch("./php/submit.php",
-							{
-								body: JSON.stringify($scope.data),
-								method: "POST"
-							}
-						)
-							.then(res => res.json())
-							.then(res => {
-								if (!res.error) {
-									alert("Sikeres adatfelvétel!");
-									$state.go("topList");
-								} else {
-									alert("Hiba, kérlek próbáld újra!")
-								}
-							})
-							.catch(e => alert("Hiba, kérlek próbáld újra!"));
+					fetch("./php/submit.php",
+						{
+							body: JSON.stringify({
+								name: $scope.data.name,
+								score: $rootScope.lastScore
+							}),
+							method: "POST"
 						}
+					)
+						.then(res => res.json())
+						.then(res => {
+							if (!res.error) {
+								$rootScope.lastScore = null;
+								$scope.data.name = "";
+								alert("Sikeres adatfelvétel!");
+							} else {
+								alert("Hiba, kérlek próbáld újra!")
+							}
+						})
+						.catch(e => alert("Hiba, kérlek próbáld újra!"));
+					
 				}
-
-				$scope.return = function () {
-					$state.go('game');
-				}
-
-
 			}
 		])
 
