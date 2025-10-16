@@ -1017,6 +1017,8 @@
 				let currentIndex = null;
 				$scope.name = null;
 				$scope.started = false;
+				let audioWinner = document.getElementById("audioWinner");
+				audioWinner.volume = 1;
 
 				fetch('./php/getUsers.php')
 				.then(response => response.json())
@@ -1029,12 +1031,16 @@
 
 				$scope.methods = {
 					start: () => {
+						audioWinner.play();
 						$scope.started = true;
 						currentIndex = Math.floor(Math.random() * $scope.names.length);
 						timeoutTime = 20;
 						timeoutId = sorsolas();
 					},
 					stop: () => {
+						audioWinner.pause();
+						audioWinner.currentTime = 0;
+						$scope.$applyAsync();
 						$scope.started = false;
 						if (timeoutId) {
 							$timeout.cancel(timeoutId);
@@ -1054,7 +1060,7 @@
 					$scope.name = getItemCircular($scope.names, currentIndex).name;
 					$scope.nameNext = getItemCircular($scope.names, currentIndex + 1).name;
 
-					timeoutTime *= 1.2;
+					timeoutTime *= 1.15;
 					if (timeoutTime < 1000) timeoutId = $timeout(sorsolas, timeoutTime);
 					else $scope.methods.stop();
 
