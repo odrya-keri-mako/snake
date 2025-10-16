@@ -17,7 +17,6 @@
 	let app = angular.module('app', [
 		'ui.router'
 	])
-
 		.config([
 			'$stateProvider',
 			'$urlRouterProvider',
@@ -47,6 +46,12 @@
 						controller: 'topListController',
 						templateUrl: './html/topList.html'
 					})
+					.state('giveAway', {
+						url: '/giveAway',
+						parent: 'root',
+						controller: 'giveAwayController',
+						templateUrl: './html/giveAway.html'
+					});
 				$urlRouterProvider.otherwise('/');
 			}
 		])
@@ -972,6 +977,7 @@
 			}
 		])
 
+		// Toplist
 		.controller('topListController', [
 			'$scope',
 			'$state',
@@ -993,6 +999,15 @@
 				}
 
 				$scope.getTop();
+			}
+		])
+
+		// Give away controller
+		.controller('giveAwayController', [
+			'$scope',
+			'$state',
+			function ($scope, $state) {
+				console.log("giveAwayController controller")
 			}
 		])
 
