@@ -1061,7 +1061,7 @@
 					$scope.nameNext = getItemCircular($scope.names, currentIndex + 1).name;
 
 					timeoutTime *= 1.15;
-					if (timeoutTime < 1000) timeoutId = $timeout(sorsolas, timeoutTime);
+					if (timeoutTime < 1500) timeoutId = $timeout(sorsolas, timeoutTime);
 					else $scope.methods.stop();
 
 					$scope.$applyAsync();
