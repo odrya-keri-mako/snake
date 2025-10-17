@@ -24,7 +24,7 @@
 		</div>
 
 		<!-- Game/Options/Audio -->
-		<div class="row justify-content-center my-3">
+		<div class="row justify-content-center mt-3">
 
 			<!-- Game panel -->
 			<div class="col-12 col-xxl-9 mb-0">
@@ -128,7 +128,8 @@
 					<form class="border py-2" name="optionsForm" novalidate>
 
 						<!-- Row -->
-						<div class="row mb-2" ng-if="options.playerID === 'astar_e'">
+						<div class="row mb-2">
+						<!-- <div class="row mb-2" ng-if="options.playerID === 'astar_e'"> -->
 							<label for="panel-size-x" 
 		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 	  					<span class="text-capitalize">sor:</span>
@@ -150,7 +151,8 @@
 						</div>
 
 						<!-- Col -->
-						<div class="row mb-2" ng-if="options.playerID === 'astar_e'">
+						<div class="row mb-2">
+						<!-- <div class="row mb-2" ng-if="options.playerID === 'astar_e'"> -->
 							<label for="panel-size-y" 
 		   					 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 	  					<span class="text-capitalize">oszlop:</span>
@@ -192,7 +194,8 @@
 						</div>
 
 						<!-- Apples -->
-						<div class="row mb-2" ng-if="options.playerID !== 'human'">
+						<div class="row mb-2" ng-if="options.playerID === 'human_mp'">
+						<!-- <div class="row mb-2" ng-if="options.playerID !== 'human'"> -->
 							<label for="snake-apples" 
 										 class="col-form-label col-form-label-sm col-12 col-md-5 text-md-end">
 								<span class="text-capitalize">almák:</span>
@@ -205,7 +208,7 @@
 											 autocomplete="off" 
 											 required
 											 min="1"
-											 max="15"
+											 max="2"
 								 			 onkeydown="return false"
 											 ng-model="options.apples"
 											 ng-disabled="game.status !== 'stopped'">
@@ -418,13 +421,41 @@
 								</button>
 							</div>
 						</div>
-
-
 					</form>
 				</div>
-				<div class="row justify-content-center justify-content-xxl-start mt-2 text-secondary">
-						<p class="mb-0">&copy; 2024-2025</p>
-						<p>osztály: 13c</p>
+				<div class="row mt-2 text-secondary mb-0
+										justify-content-center justify-content-xxl-start">
+					<div class="col-5">
+							<p class="mb-0">&copy; 2025-2026</p>
+							<h4>osztály: 13c</h4>
+					</div>
+					<div class="col-7 px-0">
+							<table class="table table-sm table-bordered 
+														align-middle text-center w-auto">
+								<tbody>
+									<tr>
+										<td><i class="fa-solid fa-arrow-up"></i></td>
+										<td class="fs-6" ng-if="options.playerID === 'human_mp'">W</td>
+										<th class="px-3">Top</th>
+									</tr>
+									<tr>
+										<td><i class="fa-solid fa-arrow-down"></i></td>
+										<td class="fs-6" ng-if="options.playerID === 'human_mp'">S</td>
+										<th class="px-3">Bottom</th>
+									</tr>
+									<tr>
+										<td><i class="fa-solid fa-arrow-right"></i></td>
+										<td class="fs-6" ng-if="options.playerID === 'human_mp'">A</td>
+										<th class="px-3">Left</th>
+									</tr>
+									<tr>
+										<td><i class="fa-solid fa-arrow-down"></i></td>
+										<td class="fs-6" ng-if="options.playerID === 'human_mp'">D</td>
+										<th class="px-3">Right</th>
+									</tr>
+								</tbody>
+							</table>
+					</div>
 				</div>
 			</div>
 		</div>

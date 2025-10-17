@@ -69,7 +69,7 @@
 
 				// Options (input models)
 				$scope.options = {
-					size: { x: 15, y: 25 },
+					size: { x: 24, y: 35 },
 					stones: 0,
 					delay: 100,
 					apples : 1,
@@ -323,11 +323,12 @@
 					// Reset
 					reset: () => {
 						if ($scope.options.isHuman) {
-							$scope.options.size = {
-								x: 15,
-								y: 25
-							};
-							if (!$scope.options.isMP || $scope.playerID == "astar_e") {
+							// $scope.options.size = {
+							// 	x: 15,
+							// 	y: 25
+							// };
+							if (!$scope.options.isMP) {
+							// if (!$scope.options.isMP || $scope.playerID == "astar_e") {
 								$scope.options.apples = 1;
 							} 
 						}
@@ -338,9 +339,13 @@
 						// If multiplayer, set snake to mp position
 						// If not, random orientation in base position
 						if ($scope.options.isMP) {
+							// helper.snake.head = {
+							// 	x: 5,
+							// 	y: 22
+							// };
 							helper.snake.head = {
-								x: 5,
-								y: 22
+								x: Math.floor(($scope.options.size.x - 1) / 2),
+								y: $scope.options.size.y - 3
 							};
 						} else {
 							helper.snake.head = {
@@ -374,8 +379,12 @@
 							// If multiplayer, set second snake, set first to viable position
 							if ($scope.options.isMP) {
 								helper.snake2.body = [];
+								// helper.snake2.head = {
+								// 	x: 5,
+								// 	y: 2
+								// };
 								helper.snake2.head = {
-									x: 5,
+									x: Math.floor(($scope.options.size.x - 1) / 2),
 									y: 2
 								};
 
@@ -968,7 +977,7 @@
 						.then(res => res.json())
 						.then(res => {
 							if (!res.error) {
-								$rootScope.lastScore = null;
+								$rootScope.lastScore = 0;
 								$scope.data.name = "";
 								alert("Sikeres adatfelvétel!");
 							} else {
@@ -998,7 +1007,7 @@
 						.catch(e => alert("Hiba, kérlek próbáld újra!"));
 				}
 
-				$scope.return = function () {
+				$scope.goBack = function () {
 					$state.go('game');
 				}
 
@@ -1023,6 +1032,7 @@
 				fetchData();
 
 				$scope.methods = {
+
 					start: () => {
 						fetchData();
 						audioWinner.play();
@@ -1031,6 +1041,7 @@
 						timeoutTime = 1;
 						timeoutId = sorsolas();
 					},
+
 					stop: () => {
 						audioWinner.pause();
 						audioWinner.currentTime = 0;
@@ -1052,8 +1063,20 @@
 						$scope.$applyAsync();
 						
 					},
+
 					goBack: () => {
 						$state.go('game');
+					},
+
+					deleteWinners: () => {
+						if (window.confirm("Biztosan törölni szeretnéd a nyerteseket?")) {
+							fetch('./php/deleteWinners.php')
+							.then(response => response.json())
+							.then(response => {
+								console.log(response)
+							})
+							.catch(e => console.log(e));
+						}
 					}
 				};
 
@@ -1071,8 +1094,20 @@
 				}
 				
 				function sorsolas() {
+					$scope.namePrevious = "";
+					$scope.name = "";
+					$scope.nameNext = "";
+
 					if ($scope.names.length === 0) {
 						$scope.name = "Nincs sorsolandó!";
+						audioWinner.pause();
+						audioWinner.currentTime = 0;
+						$scope.started = false;
+						if (timeoutId) {
+							$timeout.cancel(timeoutId);
+							timeoutId = null;
+						}
+						$scope.$applyAsync();	
 						return;
 					}
 

@@ -7,13 +7,15 @@
           <table class="table table-striped table-borderless mb-0">
             <thead>
               <tr>
+                <th>#</th>
                 <th>Név</th>
                 <th>Pontszám</th>
                 <th>Dátum</th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="x in topList">
+              <tr ng-repeat="x in topList track by $index">
+                <td>{{$index+1}}</td>
                 <td>{{x.name}}</td>
                 <td>{{x.score}}</td>
                 <td>{{x.timestamp}}</td>
@@ -23,7 +25,7 @@
           
           <!-- Vissza gomb -->
           <div class="d-grid">
-            <button type="submit" class="btn btn-danger" ng-click="return()">
+            <button type="submit" class="btn btn-danger" ng-click="goBack()">
               Vissza
             </button>
           </div>

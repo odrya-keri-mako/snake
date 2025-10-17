@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row mt-5">
-    <h1 class="text-center">Sorsolás</h1>
-    
+    <h1 class="text-center mb-4">Sorsolás</h1>
+    <hr>
   </div>
-  <div class="row my-5" style="min-height:300px;">
+  <div class="row my-5" style="min-height:300px;"> 
     <h5 class="text-center display-5">
       {{namePrevious}}
     </h5>
@@ -15,6 +15,7 @@
     </h5>
   </div>
   <div class="row justify-content-center">
+    <hr>
     <button class="btn btn btn-primary mx-2 w-auto mb-3"
 						ng-click="methods.start()"
             style="min-width: 160px;"
@@ -32,6 +33,16 @@
             style="min-width: 160px;"
             ng-disabled="started && names.length !== 0"> 
       Kilép
+		</button>
+  </div>
+
+  <div class="row justify-content-center">
+    <hr>
+    <button class="btn btn btn-warning mx-2 mb-3 w-auto"
+						ng-click="methods.deleteWinners()"
+            style="min-width: 160px;"
+            ng-disabled="started"> 
+      Nyertesek törlése
 		</button>
   </div>
 </div>
