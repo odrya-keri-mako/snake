@@ -1020,17 +1020,11 @@
 				let audioWinner = document.getElementById("audioWinner");
 				audioWinner.volume = 1;
 
-				fetch('./php/getUsers.php')
-				.then(response => response.json())
-				.then(response => {
-					if (!response.error) {	
-						$scope.names = response.data;
-					} else console.log(response.error);
-				})
-				.catch(e => console.log(e));
+				fetchData();
 
 				$scope.methods = {
 					start: () => {
+						fetchData();
 						audioWinner.play();
 						$scope.started = true;
 						currentIndex = Math.floor(Math.random() * $scope.names.length);
@@ -1040,20 +1034,47 @@
 					stop: () => {
 						audioWinner.pause();
 						audioWinner.currentTime = 0;
-						$scope.$applyAsync();
 						$scope.started = false;
 						if (timeoutId) {
 							$timeout.cancel(timeoutId);
 							timeoutId = null;
 						}
-						console.log($scope)
+
+						fetch("./php/setSorsolhatatlan.php", {
+							method: "POST",
+							body: JSON.stringify({ name: $scope.name })
+						})
+							.then(res => res.json())
+							.then(res => {
+								if (res.error) console.error(res.error);
+							});
+
+						$scope.$applyAsync();
+						
 					},
 					goBack: () => {
 						$state.go('game');
 					}
 				};
+
+				function fetchData() {
+					fetch('./php/getSorsolando.php')
+					.then(response => response.json())
+					.then(response => {
+						if (!response.error) {	
+							$scope.names = response.data ?? [];
+						} else console.log(response.error);
+
+						$scope.$applyAsync();
+					})
+					.catch(e => console.log(e));
+				}
 				
 				function sorsolas() {
+					if ($scope.names.length === 0) {
+						$scope.name = "Nincs sorsolandó!";
+					}
+
 					currentIndex++;
 
 					$scope.namePrevious = getItemCircular($scope.names, currentIndex - 1).name;
