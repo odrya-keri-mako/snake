@@ -1013,7 +1013,7 @@
 			'$timeout',
 			function ($scope, $state, $timeout) {
 				let timeoutId = null;
-				let timeoutTime = 20;
+				let timeoutTime = 1;
 				let currentIndex = null;
 				$scope.name = null;
 				$scope.started = false;
@@ -1028,7 +1028,7 @@
 						audioWinner.play();
 						$scope.started = true;
 						currentIndex = Math.floor(Math.random() * $scope.names.length);
-						timeoutTime = 20;
+						timeoutTime = 1;
 						timeoutId = sorsolas();
 					},
 					stop: () => {
@@ -1073,6 +1073,7 @@
 				function sorsolas() {
 					if ($scope.names.length === 0) {
 						$scope.name = "Nincs sorsolandó!";
+						return;
 					}
 
 					currentIndex++;
@@ -1081,8 +1082,8 @@
 					$scope.name = getItemCircular($scope.names, currentIndex).name;
 					$scope.nameNext = getItemCircular($scope.names, currentIndex + 1).name;
 
-					timeoutTime *= 1.15;
-					if (timeoutTime < 1500) timeoutId = $timeout(sorsolas, timeoutTime);
+					timeoutTime *= 1.1;
+					if (timeoutTime < 750) timeoutId = $timeout(sorsolas, timeoutTime);
 					else $scope.methods.stop();
 
 					$scope.$applyAsync();
